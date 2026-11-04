@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Taller 360RISK de mitigantes</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Expediente a la izquierda, taller a la derecha: ficha por caso, fases que se revelan en orden. */
+:root{
+  --crema:#faf5ec; --papel:#ffffff; --tinta:#1b1b1e; --carbon:#393e41;
+  --verde:#64c27b; --verde-claro:#87d895; --morado:#a663cc; --turquesa:#80bcb5;
+  --amarillo:#faa916; --coral:#ff8361;
+  --bg:var(--crema); --fg:var(--tinta); --suave:#6b6f71; --sup:var(--papel);
+  --linea:#e3dccd; --linea-fuerte:#cfc6b2; --campo:#ffffff; --sombra:0 1px 2px rgba(27,27,30,.06);
+  --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cuerpo:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --papel:#212426;
+  --linea:#33383a; --linea-fuerte:#4a5052; --campo:#191c1d; --carbon:#d8d4cc;
+  --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --papel:#212426;
+  --linea:#33383a; --linea-fuerte:#4a5052; --campo:#191c1d; --carbon:#d8d4cc;
+  --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--cuerpo);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
+p{margin:0}
+.env{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---- barra ---- */
+.barra{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--sup);border-bottom:1px solid var(--linea)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--sup)}
+.barra .env{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:10px}
+.marca{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.02em;color:inherit;text-decoration:none}
+.marca span{color:var(--verde)}
+a.pes{text-decoration:none;display:inline-block}
+.calif{border:1px solid var(--linea-fuerte);border-radius:10px;padding:13px 14px;background:var(--bg);display:flex;flex-direction:column;gap:9px}
+.calif .dos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.calif .dos{grid-template-columns:1fr}}
+select{font:inherit;background:var(--campo);color:var(--fg);border:1px solid var(--linea-fuerte);border-radius:8px;padding:8px 10px;width:100%;max-width:100%}
+.ef-out{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px}
+.ef-num{font-family:var(--display);font-weight:800;font-size:22px;border-radius:8px;padding:2px 11px;background:var(--linea);color:var(--fg);font-variant-numeric:tabular-nums}
+.ef-num[data-v="0.9"]{background:var(--verde);color:#10240f}
+.ef-num[data-v="0.7"]{background:var(--amarillo);color:#2a1a00}
+.ef-num[data-v="0.4"]{background:var(--coral);color:#3a1004}
+.ef-num[data-v="0"]{background:var(--tinta);color:var(--crema)}
+:root[data-theme="dark"] .ef-num[data-v="0"]{background:var(--crema);color:var(--tinta)}
+.barra .sep{flex:1}
+.pestanas{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer}
+.pes{border:1px solid var(--linea-fuerte);background:transparent;color:var(--fg);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:600}
+.pes[aria-selected="true"]{background:var(--verde);border-color:var(--verde);color:#10240f}
+.pes:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--morado);outline-offset:2px}
+
+/* ---- portada ---- */
+.hero{padding-block:30px 20px}
+.ojo{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--suave);font-weight:600}
+.hero h1{font-size:clamp(30px,5.2vw,46px);line-height:1.05;font-weight:800;margin-top:10px}
+.hero h1 b{background:var(--verde);color:#10240f;font-weight:800;padding:0 .12em;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.bajada{margin-top:14px;max-width:62ch;color:var(--carbon)}
+:root[data-theme="dark"] .bajada,@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bajada{color:var(--suave)}}
+.ident{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:flex-end}
+.campo-ident{display:flex;flex-direction:column;gap:5px;min-width:0}
+label{font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--suave)}
+input[type=text],textarea{font:inherit;background:var(--campo);color:var(--fg);border:1px solid var(--linea-fuerte);border-radius:8px;padding:9px 11px;width:100%;max-width:100%}
+textarea{resize:vertical;min-height:72px;line-height:1.5}
+input[type=text]{min-width:0}
+
+/* ---- reglas ---- */
+.reglas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:24px}
+.regla{border:1px dashed var(--linea-fuerte);border-radius:10px;padding:14px 15px;background:transparent}
+.regla h4{font-size:13.5px;margin-bottom:5px}
+.regla p{font-size:13.5px;color:var(--carbon)}
+.pill{display:inline-block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:var(--tinta);color:var(--crema);border-radius:999px;padding:3px 9px;margin-bottom:8px}
+:root[data-theme="dark"] .pill{background:var(--crema);color:var(--tinta)}
+
+/* ---- guion ---- */
+.guion{margin-top:26px;border-top:1px solid var(--linea);padding-top:20px}
+.reloj{display:grid;grid-template-columns:72px 1fr;gap:4px 16px;margin-top:12px;font-size:14.5px}
+.reloj dt{font-variant-numeric:tabular-nums;font-weight:700;color:var(--verde);font-family:var(--display)}
+.reloj dd{margin:0;color:var(--carbon);padding-bottom:7px;border-bottom:1px solid var(--linea)}
+
+/* ---- casos ---- */
+.casos{padding-block:8px 40px;display:flex;flex-direction:column;gap:22px}
+.caso{background:var(--sup);border:1px solid var(--linea);border-radius:14px;overflow:hidden;box-shadow:var(--sombra)}
+.caso>header{padding:16px 18px;border-bottom:1px solid var(--linea);display:flex;gap:12px;align-items:flex-start}
+.num{font-family:var(--display);font-weight:800;font-size:17px;width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;color:#10240f;background:var(--verde)}
+.caso[data-c="morado"] .num{background:var(--morado);color:#fff}
+.caso[data-c="turquesa"] .num{background:var(--turquesa);color:#10240f}
+.caso[data-c="amarillo"] .num{background:var(--amarillo);color:#2a1a00}
+.caso[data-c="coral"] .num{background:var(--coral);color:#3a1004}
+.caso>header h3{font-size:18px;font-weight:700}
+.caso>header .meta{font-size:12.5px;color:var(--suave);margin-top:2px}
+.cuerpo-caso{padding:18px;display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:860px){.cuerpo-caso{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.col{min-width:0;display:flex;flex-direction:column;gap:12px}
+.rotulo{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--suave)}
+.exp{font-size:15px;line-height:1.6}
+.exp p+p{margin-top:10px}
+.dato{border-left:3px solid var(--verde);padding:4px 0 4px 12px;font-size:14px;color:var(--carbon);margin-top:12px}
+.caso[data-c="morado"] .dato{border-color:var(--morado)}
+.caso[data-c="turquesa"] .dato{border-color:var(--turquesa)}
+.caso[data-c="amarillo"] .dato{border-color:var(--amarillo)}
+.plant{display:flex;flex-direction:column;gap:11px;border:1px solid var(--linea-fuerte);border-radius:10px;padding:14px;background:var(--bg)}
+.plant .ayuda{font-size:12.5px;color:var(--suave);margin-top:-5px}
+.acciones{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:2px}
+.btn{border:none;border-radius:8px;padding:9px 16px;font-weight:700;font-size:14px;background:var(--tinta);color:var(--crema)}
+:root[data-theme="dark"] .btn{background:var(--crema);color:var(--tinta)}
+.btn.sec{background:transparent;color:var(--fg);border:1px solid var(--linea-fuerte)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.aviso{font-size:12.5px;color:var(--suave)}
+.rev{border-top:1px solid var(--linea);margin:0 18px 18px;padding-top:16px}
+.rev h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--suave);margin-bottom:8px}
+.rev .bloque+.bloque{margin-top:14px}
+.rev p,.rev li{font-size:14.5px}
+.rev ul{margin:0;padding-left:19px}
+.corte{background:var(--verde);color:#10240f;border-radius:10px;padding:14px 16px;margin-top:14px}
+.caso[data-c="morado"] .corte{background:var(--morado);color:#fff}
+.caso[data-c="turquesa"] .corte{background:var(--turquesa);color:#10240f}
+.caso[data-c="amarillo"] .corte{background:var(--amarillo);color:#2a1a00}
+.corte h4{color:inherit;opacity:.75}
+.corte p{font-weight:600}
+.matiz{font-size:13px;color:var(--suave);margin-top:12px;border-top:1px dashed var(--linea-fuerte);padding-top:10px}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--linea-fuerte);border-radius:999px;padding:2px 9px;color:var(--suave);margin-left:auto;flex:none}
+
+/* ---- catálogo ---- */
+.cat{padding-block:30px 50px}
+.cat h2{font-size:clamp(24px,4vw,34px);font-weight:800}
+.hoja{margin-top:22px;background:var(--papel);border:1px solid var(--linea);border-radius:12px;padding:22px}
+.hoja+.hoja{margin-top:16px}
+.hoja h3{font-size:17px}
+.hoja .meta{font-size:12.5px;color:var(--suave);margin-bottom:12px}
+.dosc{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:760px){.dosc{grid-template-columns:1fr 1fr}}
+.dosc>div{min-width:0}
+.dosc h4{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--suave);margin-bottom:7px}
+.ficha-lin{display:grid;grid-template-columns:150px 1fr;gap:3px 12px;font-size:14px}
+@media(max-width:520px){.ficha-lin{grid-template-columns:1fr}}
+.ficha-lin dt{color:var(--suave);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.03em}
+.ficha-lin dd{margin:0;padding-bottom:7px;border-bottom:1px solid var(--linea);white-space:pre-wrap}
+.vacio{color:var(--suave);font-style:italic}
+.nada{border:1px dashed var(--linea-fuerte);border-radius:12px;padding:28px;text-align:center;color:var(--suave);margin-top:22px}
+footer{border-top:1px solid var(--linea);padding-block:22px 34px;font-size:13px;color:var(--suave)}
+footer p+p{margin-top:7px}
+
+@media print{
+  .barra,.no-print,.hero,.casos,footer{display:none!important}
+  body{background:#fff;color:#000;font-size:11pt}
+  .cat{padding:0}
+  .hoja{border:none;border-bottom:1pt solid #999;border-radius:0;padding:0 0 14pt;margin-top:0;page-break-inside:avoid;background:#fff}
+  .hoja+.hoja{margin-top:16pt}
+  .ficha-lin dd{border-bottom:.5pt solid #ccc}
+  .dosc{grid-template-columns:1fr 1fr}
+  a{color:#000;text-decoration:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="barra no-print"><div class="env">
+  <a class="marca" href="index.html">360<span>EDUCA</span> · Taller de mitigantes</a>
+  <div class="sep"></div>
+  <div class="pestanas" role="tablist">
+    <a class="pes" href="ruta.html">Ruta del mitigante</a>
+    <button class="pes" role="tab" id="t-taller" aria-selected="true" data-v="taller">Taller</button>
+    <button class="pes" role="tab" id="t-cat" aria-selected="false" data-v="cat">Mi catálogo</button>
+  </div>
+</div></div>
+
+<main id="v-taller">
+<section class="env hero no-print">
+  <p class="ojo">IMPACTO360 · Crónicas de Riesgo N14–N23 · 1 hora · 4 casos</p>
+  <h1>No se trata de recordar el caso.<br>Se trata de <b>diseñar el mitigante</b>.</h1>
+  <p class="bajada">Cada caso llega como lo vio quien estaba ahí: sin autoridad, sin monto y sin desenlace. Tú escribes qué señales ves y qué mitigante pondrías. Sólo entonces se revela qué pasó y dónde estaba el punto de corte. Al final imprimes tu catálogo.</p>
+
+  <div class="ident">
+    <div class="campo-ident" style="flex:1 1 240px">
+      <label for="nombre">Tu nombre</label>
+      <input type="text" id="nombre" placeholder="Para la portada de tu catálogo" autocomplete="name">
+    </div>
+    <div class="campo-ident" style="flex:1 1 180px">
+      <label for="mesa">Mesa o institución</label>
+      <input type="text" id="mesa" placeholder="Opcional">
+    </div>
+  </div>
+
+  <div class="reglas">
+    <div class="regla"><span class="pill">Regla 1</span><h4>Designación no es sentencia.</h4><p>OFAC designa y FinCEN alerta: son actos administrativos. El DOJ y las fiscalías acusan. Ninguno de los tres es una condena.</p></div>
+    <div class="regla"><span class="pill">Regla 2</span><h4>Volumen investigado no es dinero ilícito.</h4><p>Un monto bajo investigación describe alcance. No lo cites como recursos probados de origen ilícito.</p></div>
+    <div class="regla"><span class="pill">Regla 3</span><h4>Una señal sola no prueba nada.</h4><p>El valor aparece cuando varias convergen y no hay explicación consistente del negocio. Eso también se escribe.</p></div>
+  </div>
+
+  <div class="guion">
+    <p class="rotulo">Cómo corre la hora</p>
+    <dl class="reloj">
+      <dt>0–5</dt><dd>Encuadre y las tres reglas de precisión.</dd>
+      <dt>5–17</dt><dd>Ronda 1. Cada mesa toma un caso, lee el expediente y llena su plantilla. Nadie revela todavía.</dd>
+      <dt>17–25</dt><dd>Dos minutos por mesa: qué señales vieron y qué mitigante pusieron.</dd>
+      <dt>25–40</dt><dd>Revelación caso por caso. La pregunta que ordena: ¿tu mitigante lo habría interrumpido, y en qué punto?</dd>
+      <dt>40–50</dt><dd>Ronda 2. Cada mesa corrige su mitigante con lo que acaba de oír.</dd>
+      <dt>50–60</dt><dd>Cierre y todos imprimen su catálogo. El caso 5 se lo llevan.</dd>
+    </dl>
+  </div>
+</section>
+
+<section class="env casos" id="lista"></section>
+</main>
+
+<section class="env cat" id="v-cat" hidden>
+  <h2>Mi catálogo de mitigantes</h2>
+  <p class="bajada no-print" id="cat-intro">Lo que escribiste, junto a lo que publicó la edición. Esta vista es la que se imprime.</p>
+  <div class="acciones no-print" style="margin-top:16px">
+    <button class="btn" id="imprimir" hidden>Imprimir / Guardar PDF</button>
+    <button class="btn sec" id="copiar">Copiar mi catálogo</button>
+    <button class="btn sec" id="descargar" hidden>Descargar</button>
+    <span class="aviso" id="aviso-print"></span>
+  </div>
+  <div id="hojas"></div>
+</section>
+
+<footer class="env no-print">
+  <p><b>Fuente de los casos:</b> IMPACTO360, sección «Crónicas de Riesgo», ediciones N14 a N23 (2026), GMC360. Hechos, cifras y atribuciones tal como los reporta cada edición.</p>
+  <p>El punto de corte y la plantilla de mitigante son lectura de IMPACTO360 para fines de formación, no criterio de autoridad. Verifica contra la fuente primaria antes de cualquier uso externo.</p>
+</footer>
+
+<script>
+const CASOS=[
+{id:"posada",n:1,c:"verde",t:"Cien mil remesas por el mismo mostrador",meta:"Transmisor de dinero · agente comercial · N22",
+exp:["Eres el principal de una red de remesas. Uno de tus agentes es un establecimiento en el suroeste de Detroit: restaurante mexicano, tienda de conveniencia y punto de envío de dinero, los tres en el mismo mostrador. Lleva años operando en un barrio de población mexicana.",
+"Cada operación trae su formulario completo: remitente, beneficiario, teléfono, domicilio, monto. Los importes son los de una remesa familiar. Los destinos son Michoacán, Jalisco, Sinaloa y otros estados mexicanos, como los de cualquier agente de esa zona.",
+"En los últimos cuatro años ese agente ha procesado más de 100,000 transferencias."],
+dato:"Revisas una muestra de formularios. Están completos y nada en ellos, por separado, rompe una regla.",
+rev:{paso:"El propietario fue detenido el 3 de septiembre de 2026 tras una investigación de la DEA y la división de Investigación Criminal del IRS. Según la denuncia federal, entre 2022 y 2026 el negocio envió más de 140 millones de dólares a México. En operaciones encubiertas, el propietario habría cobrado una tarifa adicional —aparte de la comisión del transmisor— por proporcionar nombres de personas que figurarían como remitentes.",
+sen:["Remitentes distintos con teléfonos, domicilios o patrones de captura repetidos; direcciones inexistentes o mal escritas.","Concentración incompatible con el tamaño del local, su zona y su número de empleados.","Fraccionamiento coordinado: una sola entrega de efectivo convertida en varios envíos con remitentes distintos.","Una comisión adicional que no paga la transmisión del dinero, sino el acceso a una identidad."],
+corte:"La agregación por agente, no la revisión del formulario. Mientras cada envío se mire solo, una red de remitentes prestados parece una multitud de clientes distintos. El corte aparece al relacionar teléfonos, domicilios, dispositivos, beneficiarios, horarios y empleados entre operaciones que el sistema trata como independientes.",
+matiz:"Es una denuncia, no una condena. Los 140 millones son el volumen investigado. Enviar dinero a Michoacán, Jalisco o Sinaloa no convierte una remesa en lavado: el riesgo está en la combinación."}},
+
+{id:"kyc",n:2,c:"morado",t:"El expediente que llegó completo a la primera",meta:"Fintech · crédito empresarial · N17",
+exp:["Una empresa solicita un crédito empresarial por 180,000 euros en tu fintech. El expediente llega completo desde el primer envío: identificación oficial, acta constitutiva, comprobante de domicilio, estados financieros auditados, referencias comerciales y un historial bancario previo.",
+"La verificación de identidad por video se aprueba. Las referencias responden los correos y confirman la relación comercial. El analista no tuvo que pedir nada dos veces ni corregir un solo documento.",
+"El monto es alto, pero no tanto como para disparar una revisión extraordinaria. La mesa de crédito aprueba."],
+dato:"Todo lo que el sistema pidió, el cliente lo entregó. Exacto, a la primera, sin fricción.",
+rev:{paso:"La empresa nunca existió. El domicilio registrado era un coworking que jamás recibió a nadie con ese nombre. La fotografía del documento era un deepfake, los balances se generaron con IA y las referencias eran sintéticas. El fraude se descubrió 47 días después, cuando no llegó el primer pago; para entonces el dinero estaba fragmentado y parcialmente convertido a activos digitales.",
+sen:["Expedientes demasiado completos y pulcros para el tamaño real del cliente.","Poca huella operativa verificable: sin proveedores conocidos, sin clientes rastreables.","Estados financieros lineales, sin las imperfecciones de un negocio real.","Validaciones en video correctas pero sin espontaneidad; presencia digital reciente o superficial.","Ausencia de la fricción natural del cliente real: olvidos, envíos duplicados, archivos mal cortados."],
+corte:"Antes del desembolso, y no en la validación documental. El corte está en comprobar existencia operativa —quién le compra, quién le vende, qué infraestructura tiene— y en convertir la perfección del expediente en disparador de segunda revisión en lugar de motivo de aprobación automática.",
+matiz:"La edición no cita autoridad ni proceso: es un caso de fraude reportado, sin acusación ni sentencia. La consistencia documental dejó de probar autenticidad."}},
+
+{id:"sar",n:3,c:"turquesa",t:"El reporte estaba presentado. La relación seguía abierta",meta:"Banca privada · gobierno del riesgo · N20",
+exp:["Banca privada. Un cliente de años, con estructuras en varias jurisdicciones, ligado al entorno de una familia políticamente expuesta de Asia Central. Gestiona cientos de millones.",
+"Tu equipo hizo su trabajo: detectó el riesgo y presentó el reporte de operación sospechosa en su momento. Está documentado, fundamentado y archivado. Los registros lo confirman.",
+"La relación continúa. En el sistema, el caso aparece etiquetado como asunto heredado: viene de una administración anterior del banco y nadie lo ha vuelto a abrir. El negocio sigue produciendo."],
+dato:"Si alguien pregunta «¿reportamos?», la respuesta documentada es sí.",
+rev:{paso:"En julio de 2026 el Tribunal Penal Federal de Suiza impuso a Lombard Odier una multa de 3 millones de francos y ordenó confiscar cerca de 400 millones vinculados al caso. El tribunal describió «massive organisational shortcomings» en la prevención de lavado: fallas estructurales, no un error puntual. El banco sí había reportado; el reproche fue qué hizo la organización antes y después de ese reporte.",
+sen:["Un reporte importante que no dispara comités, decisiones de alto nivel ni replanteamiento de la relación.","Expedientes heredados que nunca se revisaron con el rigor actual.","Un programa muy documentado —manual, políticas, matrices, comités— que convive con el riesgo materializado.","Una etiqueta interna que funciona como archivo en lugar de como pendiente."],
+corte:"La decisión posterior al reporte, no el reporte. El corte es el órgano que decide mantener, restringir o cerrar la relación después de un reporte de ese peso, con plazo, evidencia y registro de quién decidió qué.",
+matiz:"Se juzgó al banco como persona jurídica y a un ex banquero. La persona vinculada a la red no fue juzgada en este proceso. El reporte no perdió valor: dejó de ser la meta."}},
+
+{id:"colegiatura",n:4,c:"amarillo",t:"El pago estaba bien. Nadie preguntó de dónde venía",meta:"Sector no financiero · ingreso administrativo · N16",
+exp:["Una universidad privada recibe una transferencia internacional por el monto exacto de la colegiatura de un alumno inscrito, con el concepto correcto y el expediente del estudiante al día. Administración la aplica sin problema.",
+"Con los meses aparecen más operaciones parecidas: pagos hechos por terceros que no son el padre o el tutor, transferencias desde jurisdicciones distintas, montos que no siempre corresponden al perfil económico del estudiante.",
+"La institución no opera con lógica de prevención de lavado. Su proceso está diseñado para registrar el ingreso, conciliarlo y emitir el recibo."],
+dato:"Cada elemento, por separado, tiene una explicación razonable. Un tío que paga. Un familiar en el extranjero. Un pago adelantado.",
+rev:{paso:"La autoridad encontró el patrón: terceros sin relación clara con el estudiante, jurisdicciones de mayor riesgo y perfiles inconsistentes con los montos. La sanción se sustentó en la omisión de controles. El hallazgo no fue que las instituciones educativas participaran en actividades ilícitas, sino que funcionaban como punto de entrada de recursos sin controles suficientes para cuestionar su procedencia.",
+sen:["Pagos de terceros sin análisis de la relación con el alumno.","Desconexión entre el perfil económico del estudiante y el flujo de fondos.","Jurisdicciones de mayor riesgo en operaciones rutinarias.","Evaluación aislada de operaciones, sin integrar el patrón por alumno ni por pagador.","Enfoque administrativo del ingreso, sin visión de riesgo."],
+corte:"En el momento de aplicar el pago, dentro del proceso administrativo que ya existe. El corte es una validación de origen y relación del pagador antes de conciliar, más una revisión agregada por alumno y por pagador que vea lo que el recibo individual no muestra.",
+matiz:"La edición no nombra a la institución, al país ni a la autoridad, y no da monto de la sanción. La prevención de lavado no depende del sector sino del flujo de recursos."}},
+
+{id:"ventanilla",n:5,c:"coral",llevar:true,t:"Caso para llevar: el riesgo que ya tenía acceso",meta:"Transmisor de dinero · riesgo interno · N21",
+exp:["Este caso no se resuelve en la sesión. Llévatelo, trabájalo con tu equipo y agrégalo a tu catálogo.",
+"Un transmisor de dinero en Estados Unidos exige identificación y verificación del cliente a partir de mil dólares. Uno de sus empleados procesa, durante tres años, una cantidad notable de envíos hacia México por 980, 990, 995 y 999 dólares, siempre por debajo de ese umbral.",
+"Los remitentes registrados son nombres distintos en cada operación. Los comprobantes llevan firma. El empleado conoce los horarios de revisión, los campos obligatorios y qué excepciones no llevan segunda mirada.",
+"El cliente no es el riesgo. El riesgo tiene credencial, usuario y permisos."],
+dato:"Pregunta de trabajo: ¿cuál de tus controles actuales vería esto, y cuál fue diseñado suponiendo que el operador es confiable?",
+rev:{paso:"El 25 de agosto de 2026 el Departamento de Justicia acusó a un empleado de un transmisor en Minnesota de conspirar, entre febrero de 2023 y febrero de 2026, para lavar al menos 750 mil dólares de una célula del CJNG, a cambio de 40 a 50 dólares por transferencia. Habría usado nombres falsos como remitentes, falsificado firmas en los comprobantes y enviado capturas de los recibos a los coconspiradores para el cobro en México.",
+sen:["Un mismo operador que aparece una y otra vez en transacciones cercanas al umbral.","Excepciones recurrentes y correcciones manuales repetidas por la misma persona.","Registros que requieren una firma que nadie puede verificar.","Operación fuera de los horarios habituales de revisión.","Acceso y capacidad de modificación sin supervisión suficiente."],
+corte:"En el monitoreo del propio operador, no del cliente. El corte es una vista que mida por empleado: quién concentra excepciones, quién procesa cerca del umbral, quién corrige registros y quién opera fuera de horario.",
+matiz:"Es una acusación, no una condena. No implica que todo empleado sea sospechoso ni que cada operación menor a mil dólares sea ilícita."}}
+];
+
+const CAMPOS=[
+ {k:"senales",l:"¿Qué señales ves?",ph:"Enumera lo que te llamaría la atención con el expediente en la mano. Mínimo tres.",filas:4},
+ {k:"disparo",l:"Señal que lo dispara",ph:"Qué dato concreto, en qué umbral o condición.",filas:2},
+ {k:"vive",l:"Dónde vive el control",ph:"Onboarding, monitoreo, expediente, gobierno, auditoría, sistema.",filas:2},
+ {k:"quien",l:"Quién lo ejecuta y en cuánto tiempo",ph:"Área responsable y plazo máximo.",filas:2},
+ {k:"evidencia",l:"Qué evidencia deja",ph:"Qué queda registrado para demostrar que el control operó.",filas:2},
+ {k:"metrica",l:"Cómo sé si sirvió",ph:"La métrica que sube o baja si el mitigante funciona.",filas:2}
+];
+const LBL=Object.fromEntries(CAMPOS.map(c=>[c.k,c.l]));
+const CLAVE="360risk-mitigantes-v1";
+let D={};
+try{D=JSON.parse(localStorage.getItem(CLAVE)||"{}")||{}}catch(e){D={}}
+const guardar=()=>{try{localStorage.setItem(CLAVE,JSON.stringify(D))}catch(e){}};
+const val=(id,k)=>((D[id]||{})[k]||"");
+const set=(id,k,v)=>{(D[id]=D[id]||{})[k]=v;guardar()};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const lista=document.getElementById("lista");
+lista.innerHTML=CASOS.map(c=>`
+<article class="caso" data-c="${c.c}" id="caso-${c.id}">
+  <header>
+    <span class="num">${c.n}</span>
+    <div style="min-width:0">
+      <h3>${esc(c.t)}</h3>
+      <p class="meta">${esc(c.meta)}</p>
+    </div>
+    ${c.llevar?'<span class="tag">Para llevar</span>':""}
+  </header>
+  <div class="cuerpo-caso">
+    <div class="col">
+      <p class="rotulo">El expediente, como se veía entonces</p>
+      <div class="exp">${c.exp.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+      <p class="dato">${esc(c.dato)}</p>
+    </div>
+    <div class="col">
+      <p class="rotulo">Tu mitigante</p>
+      <div class="plant">
+        ${CAMPOS.map(f=>`<div class="campo-ident">
+          <label for="${c.id}-${f.k}">${esc(f.l)}</label>
+          <textarea id="${c.id}-${f.k}" rows="${f.filas}" data-id="${c.id}" data-k="${f.k}" placeholder="${esc(f.ph)}"></textarea>
+        </div>`).join("")}
+      </div>
+      <div class="calif">
+        <p class="rotulo" style="margin:0">Califícalo como en la matriz</p>
+        <div class="dos">
+          <div class="campo-ident">
+            <label for="${c.id}-doc">Documentación</label>
+            <select id="${c.id}-doc" data-id="${c.id}" data-k="doc" class="ejes">
+              <option value="">—</option><option value="5">Integral y clara · 5</option>
+              <option value="3">Con áreas de mejora · 3</option><option value="0">No identificada · 0</option>
+            </select>
+          </div>
+          <div class="campo-ident">
+            <label for="${c.id}-imp">Implementación</label>
+            <select id="${c.id}-imp" data-id="${c.id}" data-k="imp" class="ejes">
+              <option value="">—</option><option value="5">Efectiva, con evidencia · 5</option>
+              <option value="3">Con oportunidades · 3</option><option value="0">No acreditada · 0</option>
+            </select>
+          </div>
+        </div>
+        <div class="ef-out"><span class="ef-num" id="ef-${c.id}">—</span><span id="efc-${c.id}" class="aviso">Califica los dos ejes y aquí sale la efectividad que llevarías a la Ruta.</span></div>
+      </div>
+      <div class="acciones">
+        <button class="btn revelar" data-id="${c.id}">Ver qué pasó</button>
+        <span class="aviso">Escribe antes de revelar. Después ya no se puede desver.</span>
+      </div>
+    </div>
+  </div>
+  <div class="rev" id="rev-${c.id}" hidden>
+    <div class="bloque"><h4>Qué pasó en realidad</h4><p>${esc(c.rev.paso)}</p></div>
+    <div class="bloque"><h4>Las señales que señala la edición</h4><ul>${c.rev.sen.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
+    <div class="corte"><h4>El punto de corte</h4><p>${esc(c.rev.corte)}</p></div>
+    <p class="matiz"><b>Precisión:</b> ${esc(c.rev.matiz)}</p>
+    <div class="campo-ident" style="margin-top:16px">
+      <label for="${c.id}-corregido">Tu mitigante, corregido</label>
+      <textarea id="${c.id}-corregido" rows="3" data-id="${c.id}" data-k="corregido" placeholder="Qué le cambias ahora que viste el punto de corte. Esto es lo que vale: la segunda versión."></textarea>
+    </div>
+  </div>
+</article>`).join("");
+
+document.querySelectorAll("textarea[data-k]").forEach(t=>{
+  t.value=val(t.dataset.id,t.dataset.k);
+  t.addEventListener("input",()=>set(t.dataset.id,t.dataset.k,t.value));
+});
+
+/* Misma escala de la Ruta del Mitigante: promedio de los dos ejes → 0.9 / 0.7 / 0.4 / 0 */
+const CLASES={"0.9":"Control óptimo","0.7":"Control adecuado","0.4":"Control con áreas de mejora","0":"Sin mitigante"};
+function efectividad(d,i){
+  if(d===""||i===""||d==null||i==null)return null;
+  const p=(Number(d)+Number(i))/2;
+  const ef=p>4?0.9:p>3?0.7:p>1?0.4:0;
+  return {ef:String(ef),prom:p};
+}
+function pintaEf(id){
+  const r=efectividad(val(id,"doc"),val(id,"imp"));
+  const n=document.getElementById("ef-"+id), t=document.getElementById("efc-"+id);
+  if(!r){n.textContent="—";n.removeAttribute("data-v");t.textContent="Califica los dos ejes y aquí sale la efectividad que llevarías a la Ruta.";return}
+  n.textContent=r.ef;n.dataset.v=r.ef;
+  t.textContent=`${CLASES[r.ef]} · promedio ${r.prom.toFixed(1)} · reduce ${Math.round(Number(r.ef)*100)}% del riesgo inherente.`;
+}
+document.querySelectorAll("select.ejes").forEach(s=>{
+  s.value=val(s.dataset.id,s.dataset.k);
+  s.addEventListener("change",()=>{set(s.dataset.id,s.dataset.k,s.value);pintaEf(s.dataset.id)});
+});
+CASOS.forEach(c=>pintaEf(c.id));
+document.querySelectorAll(".revelar").forEach(b=>{
+  const id=b.dataset.id, caja=document.getElementById("rev-"+id);
+  if(val(id,"_rev")==="1"){caja.hidden=false;b.disabled=true;b.textContent="Revelado"}
+  b.addEventListener("click",()=>{
+    caja.hidden=false;b.disabled=true;b.textContent="Revelado";set(id,"_rev","1");
+    caja.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+});
+
+["nombre","mesa"].forEach(k=>{
+  const el=document.getElementById(k);
+  el.value=val("_id",k);
+  el.addEventListener("input",()=>set("_id",k,el.value));
+});
+
+function hojas(){
+  const nom=val("_id","nombre")||"Sin nombre", mesa=val("_id","mesa");
+  const cab=`<div class="hoja"><h3>${esc(nom)}</h3><p class="meta">${mesa?esc(mesa)+" · ":""}Taller de mitigantes · Crónicas de Riesgo IMPACTO360 · ${new Date().toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"})}</p><p style="font-size:14px">Catálogo de mitigantes diseñados durante la sesión. La columna izquierda es lo que propuso el participante; la derecha, lo que publicó la edición.</p></div>`;
+  const con=CASOS.filter(c=>CAMPOS.some(f=>val(c.id,f.k).trim())||val(c.id,"corregido").trim()||val(c.id,"doc")||val(c.id,"imp"));
+  if(!con.length)return {vacio:true,html:cab+`<div class="nada">Todavía no has escrito nada. Llena la plantilla de al menos un caso y vuelve aquí.</div>`};
+  return {vacio:false,html:cab+con.map(c=>`
+  <div class="hoja">
+    <h3>${c.n} · ${esc(c.t)}</h3>
+    <p class="meta">${esc(c.meta)}</p>
+    <div class="dosc">
+      <div>
+        <h4>Mi propuesta</h4>
+        <dl class="ficha-lin">${CAMPOS.map(f=>`<dt>${esc(f.l)}</dt><dd>${val(c.id,f.k).trim()?esc(val(c.id,f.k)):'<span class="vacio">—</span>'}</dd>`).join("")}
+        ${val(c.id,"corregido").trim()?`<dt>Corregido</dt><dd>${esc(val(c.id,"corregido"))}</dd>`:""}
+        <dt>Efectividad estimada</dt><dd>${(()=>{const r=efectividad(val(c.id,"doc"),val(c.id,"imp"));return r?`${r.ef} · ${CLASES[r.ef]} (documentación ${val(c.id,"doc")}, implementación ${val(c.id,"imp")})`:'<span class="vacio">Sin calificar</span>'})()}</dd></dl>
+      </div>
+      <div>
+        <h4>Lo que publicó la edición</h4>
+        <dl class="ficha-lin">
+          <dt>Qué pasó</dt><dd>${esc(c.rev.paso)}</dd>
+          <dt>Señales</dt><dd>${esc(c.rev.sen.join("\n"))}</dd>
+          <dt>Punto de corte</dt><dd>${esc(c.rev.corte)}</dd>
+          <dt>Precisión</dt><dd>${esc(c.rev.matiz)}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>`).join("")};
+}
+function pintaCat(){const r=hojas();document.getElementById("hojas").innerHTML=r.html;return r}
+
+function texto(){
+  const nom=val("_id","nombre")||"Sin nombre", mesa=val("_id","mesa");
+  let s=`CATÁLOGO DE MITIGANTES — ${nom}${mesa?" · "+mesa:""}\nTaller de mitigantes · Crónicas de Riesgo IMPACTO360\n`;
+  CASOS.forEach(c=>{
+    const hay=CAMPOS.some(f=>val(c.id,f.k).trim())||val(c.id,"corregido").trim()||val(c.id,"doc")||val(c.id,"imp");
+    if(!hay)return;
+    s+=`\n\n${c.n}. ${c.t} (${c.meta})\n`;
+    CAMPOS.forEach(f=>{const v=val(c.id,f.k).trim();if(v)s+=`  ${f.l}: ${v}\n`});
+    const cor=val(c.id,"corregido").trim(); if(cor)s+=`  Corregido: ${cor}\n`;
+    const r=efectividad(val(c.id,"doc"),val(c.id,"imp"));
+    if(r)s+=`  Efectividad estimada: ${r.ef} — ${CLASES[r.ef]}\n`;
+    s+=`  [Punto de corte publicado] ${c.rev.corte}\n`;
+  });
+  return s;
+}
+
+const vistas={taller:document.getElementById("v-taller"),cat:document.getElementById("v-cat")};
+document.querySelectorAll(".pes").forEach(b=>b.addEventListener("click",()=>{
+  const v=b.dataset.v;
+  document.querySelectorAll(".pes").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
+  vistas.taller.hidden=v!=="taller"; vistas.cat.hidden=v!=="cat";
+  if(v==="cat")pintaCat();
+  window.scrollTo({top:0,behavior:"smooth"});
+  try{location.hash=v==="cat"?"catalogo":""}catch(e){}
+}));
+if(location.hash==="#catalogo")document.querySelector('.pes[data-v="cat"]').click();
+
+const suelto=(()=>{try{return window.self===window.top}catch(e){return false}})();
+const bImp=document.getElementById("imprimir"), bDes=document.getElementById("descargar"), aviso=document.getElementById("aviso-print");
+if(suelto){
+  bImp.hidden=false;bDes.hidden=false;
+  bImp.addEventListener("click",()=>{if(!pintaCat().vacio)window.print()});
+  bDes.addEventListener("click",()=>{
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([texto()],{type:"text/plain;charset=utf-8"}));
+    a.download="catalogo-mitigantes.txt";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  });
+}else{
+  aviso.textContent="Para el PDF, abre esta página en una pestaña propia: aquí dentro el navegador no deja imprimir.";
+}
+document.getElementById("copiar").addEventListener("click",async e=>{
+  const b=e.currentTarget, t=texto();
+  try{await navigator.clipboard.writeText(t);b.textContent="Copiado";}
+  catch(err){
+    const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy");b.textContent="Copiado"}catch(e2){b.textContent="Selecciona y copia";ta.style.opacity="1";ta.style.inset="auto";return}
+    ta.remove();
+  }
+  setTimeout(()=>b.textContent="Copiar mi catálogo",2200);
+});
+pintaCat();
+</script>
+
+</body>
+</html>

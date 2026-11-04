@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Biblioteca IMPACTO360</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Índice: una tira por edición, las crónicas como renglones buscables. */
+:root{
+  --crema:#faf5ec; --tinta:#1b1b1e; --carbon:#393e41;
+  --verde:#64c27b; --morado:#a663cc; --turquesa:#80bcb5; --amarillo:#faa916; --coral:#ff8361;
+  --bg:var(--crema); --fg:var(--tinta); --suave:#6b6f71; --sup:#ffffff; --campo:#ffffff;
+  --linea:#e3dccd; --linea-fuerte:#cfc6b2; --sombra:0 1px 2px rgba(27,27,30,.06);
+  --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cuerpo:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --campo:#191c1d; --carbon:#d8d4cc;
+  --linea:#33383a; --linea-fuerte:#4a5052; --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --campo:#191c1d; --carbon:#d8d4cc;
+  --linea:#33383a; --linea-fuerte:#4a5052; --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--cuerpo);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+p{margin:0}
+.env{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.barra{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--sup);border-bottom:1px solid var(--linea)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--sup)}
+.barra .env{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-block:10px}
+.marca{font-family:var(--display);font-weight:800;font-size:15px;color:inherit;text-decoration:none}
+.marca span{color:var(--verde)}
+.sep{flex:1}
+.pes{border:1px solid var(--linea-fuerte);background:transparent;color:var(--fg);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:600;text-decoration:none;display:inline-block}
+.pes:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--morado);outline-offset:2px}
+.hero{padding-block:30px 6px}
+.ojo{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--suave);font-weight:600}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.05;font-weight:800;margin-top:10px}
+.bajada{margin-top:14px;max-width:62ch;color:var(--carbon)}
+.buscar{margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=search]{font:inherit;background:var(--campo);color:var(--fg);border:1px solid var(--linea-fuerte);border-radius:9px;padding:9px 12px;flex:1 1 260px;min-width:0}
+.cuenta{font-size:13px;color:var(--suave)}
+.eds{padding-block:24px 40px;display:flex;flex-direction:column;gap:14px}
+.ed{background:var(--sup);border:1px solid var(--linea);border-radius:14px;box-shadow:var(--sombra);overflow:hidden}
+.ed>header{display:flex;gap:13px;align-items:center;padding:15px 18px;border-bottom:1px solid var(--linea);flex-wrap:wrap}
+.nn{font-family:var(--display);font-weight:800;font-size:14px;border-radius:8px;padding:4px 11px;background:var(--verde);color:#10240f;flex:none;letter-spacing:.02em}
+.ed[data-c="morado"] .nn{background:var(--morado);color:#fff}
+.ed[data-c="turquesa"] .nn{background:var(--turquesa);color:#10240f}
+.ed[data-c="amarillo"] .nn{background:var(--amarillo);color:#2a1a00}
+.ed[data-c="coral"] .nn{background:var(--coral);color:#3a1004}
+.ed>header h2{font-size:16px;font-weight:700;min-width:0}
+.ed>header .mes{font-size:12.5px;color:var(--suave)}
+.abrir{margin-left:auto;font-size:13px;font-weight:700;color:var(--morado);text-decoration:none;white-space:nowrap}
+.cr{list-style:none;margin:0;padding:6px 18px 16px}
+.cr li{display:grid;grid-template-columns:30px 1fr;gap:4px 12px;padding:9px 0;border-bottom:1px solid var(--linea)}
+.cr li:last-child{border-bottom:none}
+.cr .i{font-family:var(--display);font-weight:800;font-size:13px;color:var(--suave);font-variant-numeric:tabular-nums;padding-top:2px}
+.cr b{font-weight:700;font-size:15px}
+.cr p{font-size:13.5px;color:var(--carbon);margin-top:2px}
+.cr .et{font-size:12px;color:var(--suave);margin-top:3px}
+.oculto{display:none}
+.nada{border:1px dashed var(--linea-fuerte);border-radius:12px;padding:26px;text-align:center;color:var(--suave)}
+footer{border-top:1px solid var(--linea);padding-block:20px 40px;font-size:13px;color:var(--suave)}
+footer p+p{margin-top:7px}
+</style>
+</head>
+<body>
+<div class="barra"><div class="env">
+  <a class="marca" href="index.html">360<span>EDUCA</span> · Biblioteca</a>
+  <div class="sep"></div>
+  <a class="pes" href="ruta.html">Ruta del mitigante</a>
+  <a class="pes" href="taller.html">Taller de casos</a>
+</div></div>
+
+<section class="env hero">
+  <p class="ojo">IMPACTO360 · GMC360 · Año 2026</p>
+  <h1>Las 33 crónicas del año, por edición</h1>
+  <p class="bajada">De la N14 (febrero) a la N23 (noviembre). Cada renglón es una Crónica de Riesgo con la autoridad o el sector que la origina, para saber dónde buscar el caso completo cuando alguien pregunte por él.</p>
+  <div class="buscar">
+    <input type="search" id="q" placeholder="Busca por caso, autoridad o tema: OFAC, deepfake, remesas, SAR…" aria-label="Buscar crónica">
+    <span class="cuenta" id="cuenta"></span>
+  </div>
+</section>
+
+<section class="env eds" id="eds"></section>
+
+<footer class="env">
+  <p>Los enlaces abren el PDF de cada edición en el Drive de GMC360. Quien no tenga acceso a esa carpeta verá una pantalla de permiso: comparte la carpeta antes de la sesión.</p>
+  <p>Hechos, cifras y atribuciones tal como los reporta cada edición. Designación no es sentencia; acusación no es condena; volumen investigado no es dinero ilícito.</p>
+</footer>
+
+<script>
+const EDS=[
+{n:"N14",mes:"Febrero 2026",c:"verde",id:"1s4c-aa2iwWKOBNtbE-KZa1R5EDge7A9g",cr:[
+ ["CV en revisión","Falsas ofertas de empleo que piden INE, CURP y RFC por WhatsApp antes de entrevistar.","Fraude laboral · ingeniería social · alerta SSC"],
+ ["Mercado negro de chips registrados","SIM preactivadas ligadas a identidades ajenas en CDMX, Edomex y Puebla.","Policía Cibernética · PANAUT"],
+ ["Actas de nacimiento apócrifas","CURP certificada vía intermediarios sin biometría; la identidad legal como mercancía.","Identidad documental"],
+ ["Enero bajo sanción","CNBV multa a GBM Casa de Bolsa por $16,357,400 y a CIBanco por $3,112,200.","CNBV · enero 2026"]]},
+{n:"N15",mes:"Marzo 2026",c:"morado",id:"10maQFVm0iGoxr58P17VUu6HMA65q3UMv",cr:[
+ ["Petróleo, pantallas y pasaporte mexicano","Sociedades mexicanas comercializaron crudo ligado a PDVSA pese a las sanciones.","Sanciones estructurales · PDVSA"],
+ ["Cuando la víctima aprieta «aceptar»","Fraudes autorizados: de 8.3 a casi 15 mil millones de dólares proyectados para 2028.","APP · deepfakes del CFO"],
+ ["La empresa invisible","Detenciones contra la célula Commisso en Siderno: empresarios, no hombres armados.","'Ndrangheta · Italia"]]},
+{n:"N16",mes:"Abril 2026",c:"turquesa",id:"1jJkaEsvTU3CB6fFXZydLxgbsYI3fvgNq",cr:[
+ ["Ochenta millones","Monitoreo funcional, alertas cerradas una por una y nadie unió los patrones.","Sanción de 80 millones USD"],
+ ["La colegiatura","Pagos de terceros desde varias jurisdicciones aplicados sin preguntar el origen.","Sector educativo · omisión de controles"],
+ ["Desconectado","FinCEN designa a MBaer Merchant Bank bajo la Sección 311: sin corresponsalía en dólares.","FinCEN · marzo 2026"]]},
+{n:"N17",mes:"Mayo 2026",c:"amarillo",id:"1HhFjHRlNKtDL3b6SNrS4ufkXPGAkzrYZ",cr:[
+ ["Deepfakes en KYC","180,000 euros a una empresa que nunca existió; se descubrió a los 47 días.","Fintech europea · identidad sintética"],
+ ["Casino Centenario","Un casino de Nuevo Laredo como infraestructura criminal, no sólo actividad vulnerable.","OFAC · 14 abr 2026 · UIF y FGR"]]},
+{n:"N18",mes:"Junio 2026",c:"coral",id:"1SS_mOLkJ7y2deBJW2cmkwkbARlet93YJ",cr:[
+ ["Lili Pink y Yoi","Marcas de moda designadas: ventas de caja mezcladas y sobrefacturación textil.","OFAC · Kingpin Act · Clan del Golfo"],
+ ["Gameskraft","Plataforma de juegos legal con wallets, premios asignados y conversión a stablecoins.","India · Directorate of Enforcement · PMLA"],
+ ["UBS Mónaco","Un reporte de operación sospechosa que llegó 253 días tarde; multa de 6 millones de euros.","CCAF Mónaco · SICCFIN"],
+ ["Rappi y Banorte","Concentración sin autorización previa por RappiCard: 19.9 millones de pesos.","CNA · 24 may 2026 · no es PLD"]]},
+{n:"N19",mes:"Julio 2026",c:"verde",id:"1PdvW1oUr6bmkg8q2cfKFWm23jiiPRllg",cr:[
+ ["Wangiri","Llamadas perdidas de tarificación especial; el Mundial 2026 como entorno ideal.","Fraude de telecomunicaciones"],
+ ["La app que prestó $5,000 y cobró con tus fotos","Montadeudas: hostigamiento con fotos y cobro por SPEI a cuentas que rotan.","Policía Cibernética CDMX · CONDUSEF · Circular 10/2026"],
+ ["Génova","Nueve detenidos y más de 8 millones de euros; tras el congelamiento, dos entidades nuevas.","Antimafia · Guardia di Finanza · Eurojust"]]},
+{n:"N20",mes:"Agosto 2026",c:"morado",id:"1C6Ja_eKr1RcMHbxCvIVdZZOpqPbgn6jQ",cr:[
+ ["Reportar ya no siempre es suficiente","Lombard Odier: 3 millones de francos y 400 millones confiscados por fallas estructurales.","Tribunal Penal Federal · Suiza · jul 2026"],
+ ["El alumno que nunca existió… pero sí cobró","Identidades sintéticas y straw students cobrando ayuda federal.","Alerta de FinCEN · jul 2026"],
+ ["La última víctima de la IA fue la confianza","Deepfakes, identidades industrializadas y fraude con agentes de IA.","Tendencia · FRAML"],
+ ["El combustible más caro no paga IEPS","Huachicol fiscal: pedimentos con clasificación falsa en lugar de tomas clandestinas.","Comercio exterior · IEPS"]]},
+{n:"N21",mes:"Septiembre 2026",c:"turquesa",id:"1rYgxFwOXMN3u5iIYwDqqdujyGl6ol1NB",cr:[
+ ["La pesca que no pescaba","Diez embarcaciones ecuatorianas como estaciones de servicio en altamar.","OFAC · 20 ago 2026 · ruta a México"],
+ ["El lavador detrás de la ventanilla","Envíos de 980 a 999 dólares bajo el umbral, procesados por un empleado.","DOJ · 25 ago 2026 · riesgo interno"],
+ ["La inteligencia que termina en bloqueo","24,662 cuentas bloqueadas, 2,395 personas y 8,679 millones de pesos.","UIF · 28 ago 2026"],
+ ["El banco que no aprendió","125 millones de dólares por no corregir lo prometido en 2018.","FinCEN · 3 ago 2026 · UBS Financial Services"]]},
+{n:"N22",mes:"Octubre 2026",c:"amarillo",id:"1L0fQ_B2UiHa7xv3AKhU79LJ2xng8d8Yp",cr:[
+ ["Robaron USD 245 millones sin romper una bóveda","Una llamada falsa abrió el acceso a más de 4,100 bitcoins.","DOJ · RICO · culpabilidad 8 sep 2026"],
+ ["La Posada","Más de 100,000 transferencias por más de 140 millones de dólares desde un mostrador.","DEA e IRS-CI · denuncia · 3 sep 2026"],
+ ["Todo parecía estar en orden","17,566 depósitos por 9,631.8 millones de pesos y casi lo mismo retirado.","Dalga, Lovies y OHAT · CNBV"]]},
+{n:"N23",mes:"Noviembre 2026",c:"coral",id:"1z6Lc2aTAQioFuJyTh8jf052cTy3I6Kco",cr:[
+ ["Bank of America","1,200 millones de FinCEN; los 750 de la OCC van acreditados dentro, no se suman.","FinCEN y OCC · 13 oct 2026"],
+ ["La Molienda","Cuatro personas y once entidades: hipódromo, constructoras, gas y transporte.","OFAC · 13 oct 2026 · Cártel del Noreste"],
+ ["A7","Subagentes en terceros países y la stablecoin A7A5 para evadir sanciones.","Alerta FinCEN · 1 oct 2026"]]}
+];
+
+const cont=document.getElementById("eds"), esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let k=0;
+cont.innerHTML=EDS.map(e=>`
+<article class="ed" data-c="${e.c}">
+  <header>
+    <span class="nn">${e.n}</span>
+    <div style="min-width:0"><h2>${esc(e.mes)}</h2><p class="mes">${e.cr.length} ${e.cr.length===1?"crónica":"crónicas"}</p></div>
+    <a class="abrir" href="https://drive.google.com/file/d/${e.id}/view" target="_blank" rel="noopener">Abrir el PDF →</a>
+  </header>
+  <ul class="cr">
+    ${e.cr.map(c=>`<li data-t="${esc((c[0]+" "+c[1]+" "+c[2]+" "+e.n+" "+e.mes).toLowerCase())}">
+      <span class="i">${String(++k).padStart(2,"0")}</span>
+      <div><b>${esc(c[0])}</b><p>${esc(c[1])}</p><p class="et">${esc(c[2])}</p></div>
+    </li>`).join("")}
+  </ul>
+</article>`).join("")+`<div class="nada oculto" id="nada">Ninguna crónica coincide con esa búsqueda.</div>`;
+
+const q=document.getElementById("q"), cuenta=document.getElementById("cuenta"), nada=document.getElementById("nada");
+function filtra(){
+  const t=q.value.trim().toLowerCase(); let n=0;
+  document.querySelectorAll(".ed").forEach(ed=>{
+    let vis=0;
+    ed.querySelectorAll("li").forEach(li=>{
+      const ok=!t||li.dataset.t.includes(t);
+      li.classList.toggle("oculto",!ok); if(ok){vis++;n++}
+    });
+    ed.classList.toggle("oculto",vis===0);
+  });
+  nada.classList.toggle("oculto",n>0);
+  cuenta.textContent=t?`${n} de 33 crónicas`:"33 crónicas en 10 ediciones";
+}
+q.addEventListener("input",filtra); filtra();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ruta del Mitigante</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--principal:#80bcb5;--morado:#a663cc;--coral:#ff8361;--amarillo:#faa916;
+  --carbon:#393e41;--negro:#1b1b1e;--verdeclaro:#87d895;
+  --crema:#faf5ec;--tarjeta:#ffffff;--texto:#1b1b1e;--sec:#393e41;--linea:#e6ded0;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--crema:#17191a;--tarjeta:#212426;--texto:#f4f1ea;--sec:#bcc3c0;--linea:#33383a;}}
+:root[data-theme="dark"]{--crema:#17191a;--tarjeta:#212426;--texto:#f4f1ea;--sec:#bcc3c0;--linea:#33383a;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--crema);color:var(--texto);font-family:Inter,-apple-system,sans-serif;
+  line-height:1.5;-webkit-font-smoothing:antialiased}
+.membrete{height:6px;background:var(--verdeclaro)}
+.wrap{max-width:1080px;margin:0 auto;padding-block:30px 70px}
+h1,h2,h3,.mono{font-family:Montserrat,sans-serif;letter-spacing:-.015em}
+.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.14em;color:var(--sec);font-weight:600;margin:0 0 8px}
+h1{font-size:clamp(1.8rem,5vw,2.8rem);margin:0 0 10px;font-weight:800;line-height:1.1}
+h1 .res{background:var(--principal);color:#1b1b1e;padding:2px 12px;border-radius:8px;display:inline-block}
+.intro{font-size:1.02rem;color:var(--sec);max-width:68ch;margin:0 0 32px}
+section{margin-bottom:38px}
+h2{font-size:1.3rem;margin:0 0 6px;font-weight:700}
+.sub{color:var(--sec);font-size:.94rem;margin:0 0 18px;max-width:74ch}
+.card{background:var(--tarjeta);border:1px solid var(--linea);border-radius:14px;padding:20px 22px}
+.grid3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.grid2{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+/* mapa de niveles */
+.mapa{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-bottom:14px}
+.nv{background:var(--tarjeta);border:1px solid var(--linea);padding:17px 19px;position:relative}
+.nv:first-child{border-radius:14px 0 0 14px}
+.nv:last-child{border-radius:0 14px 14px 0}
+@media(max-width:740px){.nv,.nv:first-child,.nv:last-child{border-radius:14px;margin-bottom:10px}}
+.nv .cap{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:999px;margin-bottom:9px}
+.nv.i .cap{background:var(--principal);color:#1b1b1e}
+.nv.e .cap{background:var(--amarillo);color:#1b1b1e}
+.nv.t .cap{background:var(--morado);color:#fff}
+.nv h3{font-size:1rem;margin:0 0 7px;font-weight:700}
+.nv p{font-size:.88rem;margin:0 0 7px;color:var(--sec)}.nv p:last-child{margin:0}
+.nv .como{font-size:.78rem;font-weight:700;color:var(--texto);background:var(--crema);
+  border:1px solid var(--linea);border-radius:7px;padding:5px 9px;display:inline-block;margin-top:4px}
+.flecha{text-align:center;font-family:Montserrat,sans-serif;font-weight:800;color:var(--morado);
+  font-size:1.1rem;margin:6px 0 16px}
+/* escala mini */
+.mini{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0}
+.mini span{font-size:.76rem;background:var(--crema);border:1px solid var(--linea);
+  border-radius:7px;padding:4px 9px;font-weight:600}
+/* tabla */
+table{width:100%;border-collapse:collapse;font-size:.89rem;background:var(--tarjeta);
+  border:1px solid var(--linea);border-radius:14px;overflow:hidden}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--linea)}
+th{background:var(--carbon);color:#fff;font-family:Montserrat,sans-serif;font-weight:700;
+  font-size:.74rem;text-transform:uppercase;letter-spacing:.07em}
+tr:last-child td{border-bottom:none}
+td.c{text-align:center;font-family:Montserrat,sans-serif;font-weight:700}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.77rem;font-weight:700;white-space:nowrap}
+.c0{background:var(--negro);color:#fff}.c4{background:var(--coral);color:#1b1b1e}
+.c7{background:var(--amarillo);color:#1b1b1e}.c9{background:var(--principal);color:#1b1b1e}
+/* formulario */
+.paso{background:var(--tarjeta);border:1px solid var(--linea);border-radius:14px;padding:19px 21px;margin-bottom:14px}
+.paso .enc{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.paso .np{font-family:Montserrat,sans-serif;font-weight:800;font-size:.82rem;width:28px;height:28px;
+  border-radius:50%;display:grid;place-items:center;flex:none}
+.paso.p1 .np{background:var(--principal);color:#1b1b1e}
+.paso.p2 .np{background:var(--amarillo);color:#1b1b1e}
+.paso.p3 .np{background:var(--morado);color:#fff}
+.paso.p4 .np{background:var(--carbon);color:#fff}
+.paso .enc h3{margin:0;font-size:1.02rem;font-weight:700}
+.paso .enc .q{font-size:.8rem;color:var(--sec);margin:2px 0 0}
+.campo{margin-bottom:13px}
+label{display:block;font-size:.78rem;font-weight:600;color:var(--sec);margin-bottom:5px}
+input,select,textarea{width:100%;font-family:Inter,sans-serif;font-size:.92rem;color:var(--texto);
+  background:var(--crema);border:1px solid var(--linea);border-radius:9px;padding:9px 11px}
+textarea{resize:vertical;min-height:52px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--morado);outline-offset:1px}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:520px){.dos{grid-template-columns:1fr}}
+.fila-h{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:9px}
+@media(max-width:680px){.fila-h{grid-template-columns:1fr 1fr;}}
+.quitar{background:transparent;border:1px solid var(--linea);color:var(--sec);border-radius:8px;
+  padding:9px 11px;cursor:pointer;font-size:.85rem;font-weight:600}
+.btn{background:var(--morado);color:#fff;font-weight:700;border:none;border-radius:10px;
+  padding:10px 17px;font-size:.9rem;cursor:pointer;font-family:Inter,sans-serif}
+.btn.full{width:100%;margin-top:5px}
+.btn.ghost{background:transparent;border:1.5px solid var(--morado);color:var(--morado)}
+.res-box{background:var(--carbon);color:#fff;border-radius:14px;padding:22px;position:sticky;top:16px}
+.res-box h3{color:#fff;font-size:.76rem;text-transform:uppercase;letter-spacing:.13em;margin:0 0 7px;
+  font-weight:700;opacity:.82}
+.res-box .bloque{padding:14px 0;border-top:1px solid rgba(255,255,255,.15)}
+.res-box .bloque:first-of-type{border-top:none;padding-top:0}
+.big{font-family:Montserrat,sans-serif;font-weight:800;font-size:2.5rem;line-height:1;margin:4px 0 2px}
+.cl{font-weight:700;font-size:.95rem;margin:0 0 3px}
+.fila{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:.86rem;opacity:.92}
+.fila b{font-family:Montserrat,sans-serif;font-weight:700;white-space:nowrap}
+.calc{display:grid;gap:18px;grid-template-columns:minmax(300px,1.15fr) minmax(270px,.85fr)}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.aviso{background:var(--coral);color:#1b1b1e;border-radius:12px;padding:15px 18px;font-size:.92rem}
+.nota{background:var(--tarjeta);border:1px solid var(--linea);border-left:5px solid var(--morado);
+  border-radius:12px;padding:15px 18px;font-size:.91rem}
+.pie{margin-top:40px;padding-top:16px;border-top:1px solid var(--linea);color:var(--sec);font-size:.82rem;text-align:center}
+
+.navbar{background:var(--tarjeta);border-bottom:1px solid var(--linea)}
+.navwrap{max-width:1080px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.navmarca{font-family:Montserrat,sans-serif;font-weight:800;font-size:15px;color:var(--texto);text-decoration:none}
+.navmarca span{color:var(--verdeclaro)}
+.navsep{flex:1}
+.navpes{border:1px solid var(--linea);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:600;color:var(--texto);text-decoration:none;white-space:nowrap}
+.navpes:hover,.navpes:focus-visible{border-color:var(--morado);color:var(--morado)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+table{display:block;overflow-x:auto;white-space:nowrap}
+@media(min-width:760px){table{display:table;white-space:normal}}
+</style>
+</head>
+<body>
+<div class="membrete"></div>
+<div class="navbar"><div class="navwrap">
+  <a class="navmarca" href="index.html">360<span>EDUCA</span> &middot; Ruta del mitigante</a>
+  <span class="navsep"></span>
+  <a class="navpes" href="taller.html">Taller de casos</a>
+  <a class="navpes" href="biblioteca.html">Biblioteca</a>
+</div></div>
+
+<div class="wrap">
+
+  <p class="eyebrow">Metodología EBR LD/FT · cierre de mitigación</p>
+  <h1>La ruta del mitigante: <span class="res">tres niveles</span></h1>
+  <p class="intro">Un riesgo no se mitiga en un solo lugar. Se mitiga en tres, y cada nivel se
+  calcula distinto: el del indicador se captura, el del elemento sale solo, y el de la entidad
+  se captura aparte. Aquí está la ruta completa de un indicador, de su riesgo inherente a su
+  residual, y cómo los tres niveles se juntan al final.</p>
+
+  <section>
+    <h2>Cómo funcionan los tres niveles</h2>
+    <p class="sub">Lo que confunde es que no se alimentan igual. Dos se capturan y uno se calcula solo.</p>
+    <div class="mapa">
+      <div class="nv i">
+        <span class="cap">Nivel 1 · Indicador</span>
+        <h3>Un control por cada riesgo</h3>
+        <p>Cada indicador aplicable declara qué mitigante lo atiende.</p>
+        <p><b>Se califica a mano</b> con los dos ejes: documentación e implementación.</p>
+        <span class="como">Aquí sale el residual del indicador</span>
+      </div>
+      <div class="nv e">
+        <span class="cap">Nivel 2 · Elemento</span>
+        <h3>No se captura: se promedia</h3>
+        <p>La efectividad del elemento es el <b>promedio de las efectividades de sus indicadores</b>.</p>
+        <p>Ese promedio se vuelve a convertir a 0 · 0.4 · 0.7 · 0.9.</p>
+        <span class="como">Automático — no se escribe nada</span>
+      </div>
+      <div class="nv t">
+        <span class="cap">Nivel 3 · Entidad</span>
+        <h3>Cinco controles de la casa</h3>
+        <p>Gobierno corporativo · Auditoría PLD/FT · Estructuras internas · Capacitación y difusión · Sistema automatizado.</p>
+        <p><b>Se califican a mano</b>, con los mismos dos ejes.</p>
+        <span class="como">No dependen de ningún indicador</span>
+      </div>
+    </div>
+    <p class="flecha">↓ los tres se ponderan ↓</p>
+    <div class="nota"><b>La ponderación de los tres niveles la define la entidad</b> y viene vacía
+    en la plantilla. De esa suma ponderada sale la efectividad que reduce el riesgo inherente de la
+    entidad. Es decisión de criterio: conviene justificarla por escrito.</div>
+  </section>
+
+  <section>
+    <h2>La calificación, en los dos niveles que se capturan</h2>
+    <p class="sub">Mismos dos ejes, mismos tres valores: 5, 3 o 0. Se promedian y el promedio cae en un rango.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>Eje 1 · Documentación</h3>
+        <div class="mini">
+          <span>Integral y clara — en el Manual o en otro · <b>5</b></span>
+          <span>Con áreas de mejora · <b>3</b></span>
+          <span>No identificada o insuficiente · <b>0</b></span>
+        </div>
+        <p style="font-size:.87rem;color:var(--sec);margin-top:11px">Estar en el Manual o en otro
+        manual vale lo mismo. Lo que mueve la calificación es si está completo.</p>
+      </div>
+      <div class="card">
+        <h3>Eje 2 · Implementación</h3>
+        <div class="mini">
+          <span>Efectiva, con evidencia · <b>5</b></span>
+          <span>Con oportunidades de fortalecimiento · <b>3</b></span>
+          <span>No acreditada · <b>0</b></span>
+        </div>
+        <p style="font-size:.87rem;color:var(--sec);margin-top:11px">Aquí se cae la mayoría: el
+        control está escrito, pero nadie enseña la evidencia de que se aplicó.</p>
+      </div>
+    </div>
+    <table style="margin-top:16px">
+      <thead><tr><th>Documentación</th><th>Implementación</th><th style="text-align:center">Promedio</th><th>Efectividad</th><th>Clasificación</th></tr></thead>
+      <tbody>
+        <tr><td>5</td><td>5</td><td class="c">5.0</td><td><span class="chip c9">0.9</span></td><td><b>Control óptimo</b></td></tr>
+        <tr><td>5</td><td>3</td><td class="c">4.0</td><td><span class="chip c7">0.7</span></td><td>Control adecuado</td></tr>
+        <tr><td>3</td><td>3</td><td class="c">3.0</td><td><span class="chip c4">0.4</span></td><td>Control con áreas de mejora</td></tr>
+        <tr><td>5</td><td>0</td><td class="c">2.5</td><td><span class="chip c4">0.4</span></td><td>Control con áreas de mejora</td></tr>
+        <tr><td>3</td><td>0</td><td class="c">1.5</td><td><span class="chip c4">0.4</span></td><td>Control con áreas de mejora</td></tr>
+        <tr><td>0</td><td>0</td><td class="c">0.0</td><td><span class="chip c0">0</span></td><td><b>Sin mitigante</b></td></tr>
+      </tbody>
+    </table>
+    <div class="grid2" style="margin-top:14px">
+      <div class="nota"><b>Sólo 5 y 5 llega a 0.9.</b> Cualquier otra combinación se queda en 0.7 o menos.</div>
+      <div class="nota"><b>Documentado con mejoras + implementado con mejoras = 0.4</b>, lo mismo que
+      un control impecable en el Manual que nadie puede acreditar.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Sigue la ruta de un indicador</h2>
+    <p class="sub">Captura los datos y mira cómo viaja: del inherente al residual, y de ahí hacia
+    arriba, al elemento y a la entidad.</p>
+    <div class="calc">
+      <div>
+        <div class="paso p1">
+          <div class="enc"><span class="np">1</span>
+            <div><h3>El indicador y su mitigante</h3><p class="q">Se captura</p></div></div>
+          <div class="campo"><label for="ind">Indicador de riesgo</label>
+            <input id="ind" placeholder="Anonimato o falta de identificación del Cliente o Usuario"></div>
+          <div class="dos">
+            <div class="campo"><label for="elem">Elemento al que pertenece</label>
+              <select id="elem">
+                <option>1. Productos y/o Servicios</option>
+                <option selected>2. Clientes y/o Usuarios</option>
+                <option>3. Países y áreas geográficas</option>
+                <option>4. Transacciones y/o Canales de envío</option>
+                <option>5. Infraestructura Tecnológica</option>
+              </select></div>
+            <div class="campo"><label for="inh">Riesgo inherente del indicador</label>
+              <input id="inh" type="number" min="0" step="0.01" value="15.00"></div>
+          </div>
+          <div class="campo"><label for="mitdesc">Descripción del mitigante</label>
+            <textarea id="mitdesc" placeholder="El Manual establece procedimientos formales de identificación del Cliente antes del alta"></textarea></div>
+          <div class="dos">
+            <div class="campo"><label for="doc">Nivel de documentación</label>
+              <select id="doc"><option value="5">Integral y clara · 5</option>
+                <option value="3" selected>Con áreas de mejora · 3</option>
+                <option value="0">No identificada o insuficiente · 0</option></select></div>
+            <div class="campo"><label for="imp">Nivel de implementación</label>
+              <select id="imp"><option value="5" selected>Efectiva · 5</option>
+                <option value="3">Con oportunidades de fortalecimiento · 3</option>
+                <option value="0">No acreditada · 0</option></select></div>
+          </div>
+        </div>
+
+        <div class="paso p2">
+          <div class="enc"><span class="np">2</span>
+            <div><h3>Los demás indicadores del elemento</h3><p class="q">Se promedia · automático</p></div></div>
+          <p style="font-size:.87rem;color:var(--sec);margin:0 0 12px">Agrega los otros indicadores
+          del mismo elemento para que el promedio sea el real. El tuyo ya cuenta.</p>
+          <div id="hermanos"></div>
+          <button class="btn ghost" id="addHermano" type="button">+ Agregar indicador del elemento</button>
+        </div>
+
+        <div class="paso p3">
+          <div class="enc"><span class="np">3</span>
+            <div><h3>Los cinco mitigantes de entidad</h3><p class="q">Se capturan</p></div></div>
+          <div id="entidad"></div>
+        </div>
+
+        <div class="paso p4">
+          <div class="enc"><span class="np">4</span>
+            <div><h3>La ponderación de los tres niveles</h3><p class="q">La define la entidad</p></div></div>
+          <div class="dos">
+            <div class="campo"><label for="pEnt">Entidad (%)</label><input id="pEnt" type="number" min="0" max="100" value="30"></div>
+            <div class="campo"><label for="pEle">Elemento (%)</label><input id="pEle" type="number" min="0" max="100" value="30"></div>
+          </div>
+          <div class="campo"><label for="pInd">Indicador (%)</label><input id="pInd" type="number" min="0" max="100" value="40"></div>
+          <p id="sumaAviso" style="font-size:.84rem;margin:0;color:var(--sec)"></p>
+        </div>
+
+        <button class="btn full" id="ejemplo" type="button">Cargar ejemplo completo</button>
+      </div>
+
+      <div class="res-box">
+        <div class="bloque">
+          <h3>Nivel 1 · Indicador</h3>
+          <p class="big" id="rEfInd">—</p>
+          <p class="cl" id="rClInd">—</p>
+          <div class="fila"><span>Documentación + implementación</span><b id="rPromInd">—</b></div>
+          <div class="fila"><span>Riesgo inherente</span><b id="rInh">—</b></div>
+          <div class="fila"><span>Riesgo residual del indicador</span><b id="rResInd">—</b></div>
+        </div>
+        <div class="bloque">
+          <h3>Nivel 2 · Elemento</h3>
+          <div class="fila"><span>Indicadores considerados</span><b id="rNHer">—</b></div>
+          <div class="fila"><span>Promedio de sus efectividades</span><b id="rPromEle">—</b></div>
+          <div class="fila"><span>Efectividad del elemento</span><b id="rEfEle">—</b></div>
+          <div class="fila"><span>Clasificación</span><b id="rClEle">—</b></div>
+        </div>
+        <div class="bloque">
+          <h3>Nivel 3 · Entidad</h3>
+          <div class="fila"><span>Promedio de los cinco</span><b id="rPromEnt">—</b></div>
+          <div class="fila"><span>Efectividad de entidad</span><b id="rEfEnt">—</b></div>
+          <div class="fila"><span>Clasificación</span><b id="rClEnt">—</b></div>
+        </div>
+        <div class="bloque">
+          <h3>Los tres ponderados</h3>
+          <p class="big" id="rEfTot">—</p>
+          <p class="cl" id="rClTot">—</p>
+          <div class="fila"><span>Suma ponderada</span><b id="rSuma">—</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo que hay que decir en voz alta</h2>
+    <div class="grid3">
+      <div class="aviso"><b>El elemento no se califica.</b> Si alguien quiere subirlo, el único
+      camino es mejorar los mitigantes de sus indicadores. No hay dónde escribirle una nota.</div>
+      <div class="aviso"><b>El promedio castiga.</b> Un elemento con promedio de 0.84 se convierte
+      en 0.7, igual que uno de 0.55. Sólo un promedio de 0.9 exacto se queda en 0.9.</div>
+      <div class="aviso"><b>La efectividad nunca llega a 1.</b> El máximo es 0.9. Ningún control
+      elimina el riesgo: siempre queda residual.</div>
+    </div>
+  </section>
+
+  <p class="pie">Metodología EBR LD/FT · escalas, rangos y niveles tomados del libro de implementación</p>
+</div>
+
+<script>
+(function(){
+  var RANGOS=[[4.01,5,0.9],[3.01,4,0.7],[1.01,3,0.4],[0,1,0]];
+  var CLASES={0.9:"Control óptimo",0.7:"Control adecuado",0.4:"Control con áreas de mejora",0:"Sin mitigante"};
+  var ENT=["Gobierno corporativo","Auditoría PLD/FT","Estructuras internas","Capacitación y difusión","Sistema automatizado"];
+  function $(id){return document.getElementById(id);}
+  function efDe(doc,imp){var p=(doc+imp)/2;
+    for(var i=0;i<RANGOS.length;i++){if(p>=RANGOS[i][0]&&p<=RANGOS[i][1])return {ef:RANGOS[i][2],prom:p};}
+    return {ef:0,prom:p};}
+  function clasePromedio(prom){ // PROM.EFEC: 0→0 · 0.01-0.5→0.4 · 0.51-0.89→0.7 · 0.9→0.9
+    if(prom>=0.9) return 0.9; if(prom>=0.51) return 0.7; if(prom>=0.01) return 0.4; return 0;}
+  function selDoc(v){return '<select class="sDoc"><option value="5"'+(v==5?' selected':'')+'>Doc · 5</option>'+
+    '<option value="3"'+(v==3?' selected':'')+'>Doc · 3</option>'+
+    '<option value="0"'+(v==0?' selected':'')+'>Doc · 0</option></select>';}
+  function selImp(v){return '<select class="sImp"><option value="5"'+(v==5?' selected':'')+'>Impl · 5</option>'+
+    '<option value="3"'+(v==3?' selected':'')+'>Impl · 3</option>'+
+    '<option value="0"'+(v==0?' selected':'')+'>Impl · 0</option></select>';}
+
+  function addHermano(nombre,d,i){
+    var w=document.createElement("div"); w.className="fila-h";
+    w.innerHTML='<div><label>Indicador</label><input class="hNom" value="'+(nombre||"")+'" placeholder="Otro indicador del elemento"></div>'+
+      '<div><label>Documentación</label>'+selDoc(d===undefined?3:d)+'</div>'+
+      '<div><label>Implementación</label>'+selImp(i===undefined?3:i)+'</div>'+
+      '<button class="quitar" type="button">Quitar</button>';
+    w.querySelector(".quitar").addEventListener("click",function(){w.remove();calcular();});
+    w.querySelectorAll("select,input").forEach(function(el){el.addEventListener("change",calcular);el.addEventListener("input",calcular);});
+    $("hermanos").appendChild(w); return w;
+  }
+  function pintarEntidad(){
+    $("entidad").innerHTML="";
+    ENT.forEach(function(n,k){
+      var w=document.createElement("div"); w.className="fila-h";
+      w.innerHTML='<div><label>'+n+'</label><input class="eNom" value="'+n+'" readonly></div>'+
+        '<div><label>Documentación</label>'+selDoc(3)+'</div>'+
+        '<div><label>Implementación</label>'+selImp(3)+'</div><span></span>';
+      w.querySelectorAll("select").forEach(function(el){el.addEventListener("change",calcular);});
+      $("entidad").appendChild(w);
+    });
+  }
+
+  function calcular(){
+    var d=parseFloat($("doc").value), i=parseFloat($("imp").value);
+    var r=efDe(d,i), inh=parseFloat($("inh").value);
+    $("rEfInd").textContent=r.ef.toFixed(1);
+    $("rClInd").textContent=CLASES[r.ef];
+    $("rPromInd").textContent=d+" y "+i+" → "+r.prom.toFixed(1);
+    $("rInh").textContent=isNaN(inh)?"—":inh.toFixed(2);
+    $("rResInd").textContent=isNaN(inh)?"—":(inh*(1-r.ef)).toFixed(2);
+
+    var efs=[r.ef];
+    $("hermanos").querySelectorAll(".fila-h").forEach(function(w){
+      var dd=parseFloat(w.querySelector(".sDoc").value), ii=parseFloat(w.querySelector(".sImp").value);
+      efs.push(efDe(dd,ii).ef);
+    });
+    var promEle=efs.reduce(function(a,b){return a+b;},0)/efs.length;
+    var efEle=clasePromedio(promEle);
+    $("rNHer").textContent=efs.length;
+    $("rPromEle").textContent=promEle.toFixed(4);
+    $("rEfEle").textContent=efEle.toFixed(1);
+    $("rClEle").textContent=CLASES[efEle];
+
+    var efsE=[];
+    $("entidad").querySelectorAll(".fila-h").forEach(function(w){
+      var dd=parseFloat(w.querySelector(".sDoc").value), ii=parseFloat(w.querySelector(".sImp").value);
+      efsE.push(efDe(dd,ii).ef);
+    });
+    var promEnt=efsE.length?efsE.reduce(function(a,b){return a+b;},0)/efsE.length:0;
+    var efEnt=clasePromedio(promEnt);
+    $("rPromEnt").textContent=promEnt.toFixed(4);
+    $("rEfEnt").textContent=efEnt.toFixed(1);
+    $("rClEnt").textContent=CLASES[efEnt];
+
+    var pE=(parseFloat($("pEnt").value)||0)/100, pL=(parseFloat($("pEle").value)||0)/100,
+        pI=(parseFloat($("pInd").value)||0)/100;
+    var suma=pE+pL+pI;
+    $("sumaAviso").textContent = Math.abs(suma-1)<0.001 ? "Las tres suman 100 %."
+      : "Las tres suman "+(suma*100).toFixed(0)+" %. Revísalo: deberían sumar 100.";
+    var tot=efEnt*pE + efEle*pL + r.ef*pI;
+    var efTot=clasePromedio(tot);
+    $("rSuma").textContent=tot.toFixed(4);
+    $("rEfTot").textContent=efTot.toFixed(1);
+    $("rClTot").textContent=CLASES[efTot];
+  }
+
+  $("addHermano").addEventListener("click",function(){addHermano("",3,3);calcular();});
+  ["ind","elem","inh","doc","imp","pEnt","pEle","pInd"].forEach(function(id){
+    $(id).addEventListener("change",calcular); $(id).addEventListener("input",calcular);
+  });
+  $("ejemplo").addEventListener("click",function(){
+    $("ind").value="Anonimato o falta de identificación del Cliente o Usuario";
+    $("elem").value="2. Clientes y/o Usuarios";
+    $("inh").value=15.00;
+    $("mitdesc").value="El Manual establece procedimientos formales de identificación del Cliente antes del alta, con validación contra listas.";
+    $("doc").value="3"; $("imp").value="5";
+    $("hermanos").innerHTML="";
+    addHermano("Cliente o Usuario con actividad de alto riesgo",5,5);
+    addHermano("Beneficiario controlador no identificado",3,3);
+    addHermano("Persona políticamente expuesta",5,3);
+    pintarEntidad();
+    var filas=$("entidad").querySelectorAll(".fila-h");
+    var vals=[[5,5],[5,3],[3,3],[5,5],[3,5]];
+    filas.forEach(function(w,k){ if(vals[k]){ w.querySelector(".sDoc").value=vals[k][0]; w.querySelector(".sImp").value=vals[k][1]; } });
+    $("pEnt").value=30; $("pEle").value=30; $("pInd").value=40;
+    calcular();
+  });
+
+  pintarEntidad();
+  addHermano("",3,3);
+  calcular();
+})();
+</script>
+</body>
+</html>
+
+</body></html>

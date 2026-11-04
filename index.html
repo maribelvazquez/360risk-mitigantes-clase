@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Cierre de mitigación 360RISK</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Portada: una tesis, tres puertas en el orden en que se usan. */
+:root{
+  --crema:#faf5ec; --tinta:#1b1b1e; --carbon:#393e41;
+  --verde:#64c27b; --morado:#a663cc; --turquesa:#80bcb5; --amarillo:#faa916; --coral:#ff8361;
+  --bg:var(--crema); --fg:var(--tinta); --suave:#6b6f71; --sup:#ffffff;
+  --linea:#e3dccd; --linea-fuerte:#cfc6b2; --sombra:0 1px 2px rgba(27,27,30,.06);
+  --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cuerpo:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --carbon:#d8d4cc;
+  --linea:#33383a; --linea-fuerte:#4a5052; --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --carbon:#d8d4cc;
+  --linea:#33383a; --linea-fuerte:#4a5052; --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--cuerpo);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+p{margin:0}
+.membrete{height:6px;background:var(--verde)}
+.env{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero{padding-block:44px 10px}
+.ojo{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--suave);font-weight:600}
+h1{font-size:clamp(32px,6vw,54px);line-height:1.03;font-weight:800;margin-top:12px}
+h1 b{background:var(--verde);color:#10240f;font-weight:800;padding:0 .12em;border-radius:4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.bajada{margin-top:18px;max-width:60ch;font-size:17px;color:var(--carbon)}
+.puertas{display:grid;gap:14px;grid-template-columns:1fr;padding-block:34px 10px}
+@media(min-width:760px){.puertas{grid-template-columns:repeat(3,1fr)}}
+.puerta{display:flex;flex-direction:column;gap:9px;min-width:0;background:var(--sup);border:1px solid var(--linea);border-radius:14px;padding:22px;text-decoration:none;color:inherit;box-shadow:var(--sombra);transition:transform .15s ease,border-color .15s ease}
+.puerta:hover,.puerta:focus-visible{transform:translateY(-2px);border-color:var(--linea-fuerte)}
+.puerta:focus-visible{outline:2px solid var(--morado);outline-offset:2px}
+.marca-p{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px;flex:none}
+.p1 .marca-p{background:var(--turquesa);color:#10240f}
+.p2 .marca-p{background:var(--verde);color:#10240f}
+.p3 .marca-p{background:var(--amarillo);color:#2a1a00}
+.puerta h2{font-size:19px;font-weight:700}
+.puerta .q{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--suave);font-weight:700}
+.puerta p.d{font-size:14.5px;color:var(--carbon)}
+.puerta .ir{margin-top:auto;padding-top:10px;font-weight:700;font-size:14px;color:var(--morado)}
+.orden{margin-top:26px;border-top:1px solid var(--linea);padding-top:20px;display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:720px){.orden{grid-template-columns:1.3fr 1fr}}
+.orden h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);margin-bottom:9px}
+.orden p{font-size:14.5px;color:var(--carbon);max-width:60ch}
+.orden p+p{margin-top:9px}
+.cita{border-left:3px solid var(--verde);padding:6px 0 6px 14px;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.3}
+footer{margin-top:38px;border-top:1px solid var(--linea);padding-block:20px 40px;font-size:13px;color:var(--suave)}
+footer p+p{margin-top:7px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="membrete"></div>
+<div class="env">
+
+<section class="hero">
+  <p class="ojo">360EDUCA · GMC360 · Cierre de mitigación</p>
+  <h1>Un control no se diseña dos veces:<br>se <b>concibe</b> y se <b>califica</b>.</h1>
+  <p class="bajada">Dos herramientas para la misma sesión. Una enseña a leer un caso real y convertirlo en mitigante. La otra enseña cómo ese mitigante se califica y cuánto riesgo alcanza a reducir. La tercera puerta es de dónde salen los casos.</p>
+</section>
+
+<nav class="puertas">
+  <a class="puerta p1" href="ruta.html">
+    <span class="marca-p">1</span>
+    <p class="q">Cómo se califica</p>
+    <h2>La ruta del mitigante</h2>
+    <p class="d">Los tres niveles de la metodología EBR: indicador, elemento y entidad. Captura un indicador y mira su viaje del riesgo inherente al residual, con la calculadora de efectividad.</p>
+    <span class="ir">Abrir la ruta →</span>
+  </a>
+  <a class="puerta p2" href="taller.html">
+    <span class="marca-p">2</span>
+    <p class="q">Cómo se concibe</p>
+    <h2>Taller de casos</h2>
+    <p class="d">Cuatro casos reales presentados sin desenlace. Diseñas el mitigante antes de saber cómo terminó, y después se revela dónde estaba el punto de corte. Al final imprimes tu catálogo.</p>
+    <span class="ir">Entrar al taller →</span>
+  </a>
+  <a class="puerta p3" href="biblioteca.html">
+    <span class="marca-p">3</span>
+    <p class="q">De dónde salen</p>
+    <h2>Biblioteca IMPACTO360</h2>
+    <p class="d">Las diez ediciones del año, de la N14 a la N23, con el índice de sus 33 Crónicas de Riesgo: qué caso trae cada una y dónde buscarlo.</p>
+    <span class="ir">Ver el índice →</span>
+  </a>
+</nav>
+
+<section class="orden">
+  <div>
+    <h3>El orden que sugerimos</h3>
+    <p>La ruta primero, como referencia: deja claro que la efectividad máxima es 0.9 y que sólo se llega ahí con documentación e implementación en 5. Eso fija la vara antes de que nadie proponga nada.</p>
+    <p>El taller después, que es donde se gana la hora. Ahí el grupo descubre que la parte difícil no es calificar un control, sino concebirlo en el punto correcto de la cadena. Cada mitigante que diseñan sale del taller ya calificado con los dos ejes, listo para llevarse a la ruta y a su propia matriz.</p>
+  </div>
+  <div>
+    <p class="cita">La pregunta no es si el control existe. Es si el control detuvo algo.</p>
+  </div>
+</section>
+
+<footer>
+  <p><b>Casos:</b> IMPACTO360, sección «Crónicas de Riesgo», ediciones N14 a N23 (2026), GMC360. Hechos, cifras y atribuciones tal como los reporta cada edición.</p>
+  <p><b>Escalas y niveles:</b> metodología EBR LD/FT, tomados del libro de implementación. El punto de corte de cada caso es lectura de IMPACTO360 para fines de formación, no criterio de autoridad.</p>
+</footer>
+</div>
+
+</body>
+</html>
