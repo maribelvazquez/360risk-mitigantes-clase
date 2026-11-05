@@ -118,6 +118,11 @@ textarea{resize:vertical;min-height:62px;line-height:1.5}
 .paso .cont{padding:0 13px 13px;display:flex;flex-direction:column;gap:9px}
 .paso .ayuda{font-size:12.5px;color:var(--suave)}
 .paso .dos{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.fila-ind{display:grid;grid-template-columns:1.15fr 1fr auto;gap:8px;align-items:end;margin-bottom:8px}
+@media(max-width:560px){.fila-ind{grid-template-columns:1fr 1fr;}.fila-ind .quitar{grid-column:2;justify-self:end}}
+.quitar{background:transparent;border:1px solid var(--linea-fuerte);color:var(--suave);border-radius:8px;padding:9px 11px;font-size:13px;font-weight:600;line-height:1}
+.quitar:hover{border-color:var(--coral);color:var(--coral)}
+.mas{margin-top:2px}
 @media(max-width:560px){.paso .dos{grid-template-columns:1fr}}
 .bloqueado{opacity:.5}
 .bloqueado>button.cab{cursor:not-allowed}
@@ -380,12 +385,8 @@ function efectividad(d,i){
 function campoPaso(c,p){
   const id=c.id+"-"+p.k, v=val(c.id,p.k);
   if(p.t==="select") return `<select id="${id}" data-id="${c.id}" data-k="${p.k}" class="guardable"><option value="">—</option>${p.op.map(o=>`<option${v===o?" selected":""}>${esc(o)}</option>`).join("")}</select>`;
-  if(p.t==="indicador") return `<div class="dos">
-      <div class="campo"><label for="${id}-el">Elemento</label>
-        <select id="${id}-el" data-id="${c.id}" data-k="elemento" class="guardable"><option value="">—</option>${ELEMENTOS.map(o=>`<option${val(c.id,"elemento")===o?" selected":""}>${esc(o)}</option>`).join("")}</select></div>
-      <div class="campo"><label for="${id}">Indicador</label>
-        <input type="text" id="${id}" data-id="${c.id}" data-k="${p.k}" class="guardable" value="${esc(v)}" placeholder="Como lo nombras en tu matriz"></div>
-    </div>`;
+  if(p.t==="indicador") return `<div class="inds" id="inds-${c.id}"></div>
+    <button type="button" class="btn sec mas" data-mas="${c.id}">+ Agregar otro indicador</button>`;
   return `<textarea id="${id}" rows="${p.filas||3}" data-id="${c.id}" data-k="${p.k}" class="guardable" placeholder="${esc(p.ph||'')}">${esc(v)}</textarea>`;
 }
 
@@ -506,13 +507,55 @@ function pintaEf(id){
   res.textContent=(r&&!isNaN(inh))?`${(inh*(1-Number(r.ef))).toFixed(2)} (de ${inh.toFixed(2)})`:"—";
 }
 
+
+/* ---- indicadores: varios por caso ---- */
+const getInds=id=>{try{const a=JSON.parse(val(id,"inds")||"[]");return Array.isArray(a)?a:[]}catch(e){return []}};
+const setInds=(id,a)=>set(id,"inds",JSON.stringify(a));
+function migraInds(id){
+  if(val(id,"inds"))return;
+  const e=val(id,"elemento"), i=val(id,"indicador");
+  if(e||i)setInds(id,[{e:e,i:i}]);
+}
+function pintaInds(id){
+  const cont=document.getElementById("inds-"+id); if(!cont)return;
+  let a=getInds(id); if(!a.length)a=[{e:"",i:""}];
+  cont.innerHTML=a.map((f,k)=>`<div class="fila-ind" data-k="${k}">
+      <div class="campo"><label for="${id}-el-${k}">Elemento</label>
+        <select id="${id}-el-${k}" class="f-el"><option value="">—</option>${ELEMENTOS.map(o=>`<option${f.e===o?" selected":""}>${esc(o)}</option>`).join("")}</select></div>
+      <div class="campo"><label for="${id}-in-${k}">Indicador</label>
+        <input type="text" id="${id}-in-${k}" class="f-in" value="${esc(f.i||"")}" placeholder="Como lo nombras en tu matriz"></div>
+      <button type="button" class="quitar" data-quita="${k}"${a.length===1?' disabled style="opacity:.35"':''} aria-label="Quitar este indicador">Quitar</button>
+    </div>`).join("");
+}
+function leeInds(id){
+  const cont=document.getElementById("inds-"+id); if(!cont)return;
+  const a=[...cont.querySelectorAll(".fila-ind")].map(f=>({e:f.querySelector(".f-el").value,i:f.querySelector(".f-in").value}));
+  setInds(id,a);
+}
+document.addEventListener("input",e=>{
+  const f=e.target.closest(".inds"); if(!f)return;
+  leeInds(f.id.slice(5)); pintaPasos(f.id.slice(5));
+});
+document.addEventListener("change",e=>{
+  const f=e.target.closest(".inds"); if(!f)return;
+  leeInds(f.id.slice(5)); pintaPasos(f.id.slice(5));
+});
+document.addEventListener("click",e=>{
+  const mas=e.target.closest("[data-mas]");
+  if(mas){const id=mas.dataset.mas; leeInds(id); const a=getInds(id); a.push({e:"",i:""}); setInds(id,a); pintaInds(id); pintaPasos(id);
+    const u=document.querySelectorAll("#inds-"+id+" .f-in"); if(u.length)u[u.length-1].focus(); return;}
+  const q=e.target.closest("[data-quita]");
+  if(q&&!q.disabled){const cont=q.closest(".inds"), id=cont.id.slice(5);
+    leeInds(id); const a=getInds(id); a.splice(Number(q.dataset.quita),1); setInds(id,a.length?a:[{e:"",i:""}]); pintaInds(id); pintaPasos(id);}
+});
+
 /* ---- pasos: uno a la vez ---- */
 function pintaPasos(id){
   const cont=document.getElementById("pasos-"+id); if(!cont)return;
   let primerVacio=-1;
   PASOS.forEach((p,i)=>{
     const div=cont.querySelector(`.paso[data-i="${i}"]`);
-    const lleno=String(val(id,p.k)).trim()!=="";
+    const lleno = p.k==="indicador" ? getInds(id).some(f=>(f.i||"").trim()||(f.e||"").trim()) : String(val(id,p.k)).trim()!=="";
     div.classList.toggle("listo",lleno);
     if(!lleno&&primerVacio<0)primerVacio=i;
     const g=document.getElementById("g-"+id+"-"+i); if(g)g.textContent=giro();
@@ -526,7 +569,7 @@ function pintaPasos(id){
   const abierto=cont.querySelector('.cont:not([hidden])');
   if(!abierto){const i=primerVacio<0?PASOS.length-1:primerVacio;abrir(id,i,false)}
   const av=document.getElementById("av-"+id);
-  if(av){const n=PASOS.filter(p=>String(val(id,p.k)).trim()!=="").length;av.textContent=n?`${n} de ${PASOS.length}`:""}
+  if(av){const n=PASOS.filter(p=>p.k==="indicador"?getInds(id).some(f=>(f.i||"").trim()||(f.e||"").trim()):String(val(id,p.k)).trim()!=="").length;av.textContent=n?`${n} de ${PASOS.length}`:""}
 }
 function abrir(id,i,scroll){
   const cont=document.getElementById("pasos-"+id);
@@ -603,7 +646,7 @@ function pintaEstado(){
 function hojas(){
   const nom=val("_id","nombre")||"Sin nombre", inst=val("_id","inst"), g=val("_id","giro");
   const cab=`<div class="hoja"><h3>${esc(nom)}</h3><p class="meta">${[inst,g].filter(Boolean).map(esc).join(" · ")}${inst||g?" · ":""}Taller de mitigantes · Crónicas de Riesgo IMPACTO360 · ${new Date().toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"})}</p><p style="font-size:14px">Mitigantes diseñados durante la sesión. La columna izquierda es la propuesta del participante; la derecha, lo que publicó la edición.</p></div>`;
-  const con=CASOS.filter(c=>PASOS.some(p=>String(val(c.id,p.k)).trim()!=="")||val(c.id,"corregido").trim());
+  const con=CASOS.filter(c=>PASOS.some(p=>p.k==="indicador"?getInds(c.id).length&&getInds(c.id).some(f=>(f.i||"").trim()):String(val(c.id,p.k)).trim()!=="")||val(c.id,"corregido").trim());
   if(!con.length)return {vacio:true,html:cab+`<div class="nada">Todavía no has escrito nada. Contesta al menos el primer paso de un caso y vuelve aquí.</div>`};
   return {vacio:false,html:cab+con.map(c=>{
     const r=efectividad(val(c.id,"doc"),val(c.id,"imp"));
@@ -615,10 +658,13 @@ function hojas(){
         <h4>Mi propuesta</h4>
         <dl class="ficha-lin">
           ${PASOS.map(p=>{
-            const v=String(val(c.id,p.k)).trim();
             const et=p.k==="afecta"?`Cómo me afecta en ${esc(g||"mi giro")}`:esc(p.q.replace("@GIRO@",g||"mi giro"));
-            const extra=p.k==="indicador"&&val(c.id,"elemento")?`${esc(val(c.id,"elemento"))} — `:"";
-            return `<dt>${et}</dt><dd>${v?extra+esc(v):'<span class="vacio">—</span>'}</dd>`;
+            if(p.k==="indicador"){
+              const a=getInds(c.id).filter(f=>(f.i||"").trim()||(f.e||"").trim());
+              return `<dt>${et}</dt><dd>${a.length?a.map(f=>`${f.e?esc(f.e)+" — ":""}${esc(f.i||"")}`).join("\n"):'<span class="vacio">—</span>'}</dd>`;
+            }
+            const v=String(val(c.id,p.k)).trim();
+            return `<dt>${et}</dt><dd>${v?esc(v):'<span class="vacio">—</span>'}</dd>`;
           }).join("")}
           ${val(c.id,"corregido").trim()?`<dt>Corregido</dt><dd>${esc(val(c.id,"corregido"))}</dd>`:""}
           <dt>Efectividad estimada</dt><dd>${r?`${r.ef} · ${CLASES[r.ef]} (documentación ${val(c.id,"doc")}, implementación ${val(c.id,"imp")})`:'<span class="vacio">Sin calificar</span>'}</dd>
@@ -657,7 +703,7 @@ const impr=()=>{ver("cat");setTimeout(()=>{if(!pintaCat().vacio){try{window.prin
 document.getElementById("imprimir").addEventListener("click",impr);
 document.getElementById("imprimir2").addEventListener("click",impr);
 
-CASOS.forEach(c=>{pintaPasos(c.id);pintaEf(c.id)});
+CASOS.forEach(c=>{migraInds(c.id);pintaInds(c.id);pintaPasos(c.id);pintaEf(c.id)});
 notaGiro();
 pintaEstado(); pintaCat();
 </script>
