@@ -225,17 +225,21 @@ footer p+p{margin-top:7px}
       <label for="giro">¿Qué eres? Desde aquí respondes todo</label>
       <select id="giro">
         <option value="">Elige tu figura…</option>
-        <option>Transmisor de dinero</option>
-        <option>Centro cambiario</option>
-        <option>SOFOM E.N.R.</option>
-        <option>Banco o casa de bolsa</option>
-        <option>Fintech / IFPE</option>
-        <option>Actividad vulnerable</option>
-        <option>Prestamista</option>
-        <option>Notaría o fedatario</option>
-        <option>Inmobiliaria o desarrolladora</option>
-        <option>Automotriz o distribuidor</option>
-        <option>Otro</option>
+        <optgroup label="Entidad del sector financiero">
+          <option>Banco</option><option>Casa de bolsa</option><option>SOFOM E.N.R.</option>
+          <option>Casa de cambio o centro cambiario</option><option>Transmisor de dinero</option>
+          <option>Fintech (IFPE o IFC)</option><option>SOFIPO</option><option>Unión de crédito</option>
+          <option>Seguros o fianzas</option>
+        </optgroup>
+        <optgroup label="Actividad Vulnerable · art. 17 LFPIORPI">
+          <option>Inmobiliaria o desarrollo inmobiliario</option><option>Arrendamiento de inmuebles</option>
+          <option>Construcción</option><option>Automotriz</option><option>Fedatario público</option>
+          <option>Mutuo, préstamo o crédito</option><option>Joyería y metales preciosos</option>
+          <option>Obra de arte</option><option>Blindaje</option><option>Activos virtuales</option>
+          <option>Donativos</option><option>Juegos y sorteos</option><option>Agente aduanal</option>
+          <option>Traslado o custodia de valores</option><option>Servicios profesionales</option>
+        </optgroup>
+        <option>Otra</option>
       </select>
     </div>
     <p class="nota">El caso no le aplica igual a todos. Al elegir tu figura, las preguntas se formulan desde ahí: si algo no te aplica, decirlo también es parte del ejercicio.</p>
@@ -255,10 +259,8 @@ footer p+p{margin-top:7px}
   <h2>Mi catálogo de mitigantes</h2>
   <p class="bajada no-print">Lo que diseñaste, junto a lo que publicó la edición. Esta vista es la que se imprime.</p>
   <div class="acciones no-print" style="margin-top:16px">
-    <button class="btn" id="imprimir" hidden>Imprimir / Guardar PDF</button>
-    <button class="btn sec" id="copiar">Copiar mi catálogo</button>
-    <button class="btn sec" id="descargar" hidden>Descargar</button>
-    <span class="aviso" id="aviso-print"></span>
+    <button class="btn" id="imprimir">Imprimir / Guardar PDF</button>
+    <span class="aviso">Tu catálogo sale con tu nombre. Imprímelo antes de cerrar la sesión.</span>
   </div>
   <div id="hojas"></div>
 </section>
@@ -267,7 +269,7 @@ footer p+p{margin-top:7px}
   <span class="estado"><span class="punto" id="punto"></span><span id="estado-txt">Nada capturado todavía</span></span>
   <div class="sep" style="flex:1"></div>
   <button class="btn sec" id="ir-cat">Ver mi catálogo</button>
-  <button class="btn" id="imprimir2" hidden>Imprimir</button>
+  <button class="btn" id="imprimir2">Imprimir</button>
 </div></div>
 
 <footer class="env no-print">
@@ -471,6 +473,8 @@ render();
 function enlazar(){
   document.querySelectorAll(".guardable").forEach(el=>{
     if(el.dataset.lig)return; el.dataset.lig="1";
+    const g=val(el.dataset.id,el.dataset.k);
+    if(el.tagName==="SELECT"&&g!=="")el.value=g;
     const ev=el.tagName==="SELECT"?"change":"input";
     el.addEventListener(ev,()=>{
       set(el.dataset.id,el.dataset.k,el.value);
@@ -612,20 +616,7 @@ function hojas(){
 }
 function pintaCat(){const r=hojas();document.getElementById("hojas").innerHTML=r.html;return r}
 
-function texto(){
-  const nom=val("_id","nombre")||"Sin nombre", inst=val("_id","inst"), g=val("_id","giro");
-  let s=`CATÁLOGO DE MITIGANTES — ${nom}${inst?" · "+inst:""}${g?" · "+g:""}\nTaller de mitigantes · Crónicas de Riesgo IMPACTO360\n`;
-  CASOS.forEach(c=>{
-    if(!PASOS.some(p=>String(val(c.id,p.k)).trim()!=="")&&!val(c.id,"corregido").trim())return;
-    s+=`\n\n${c.n}. ${c.t} (${c.meta})\n`;
-    PASOS.forEach(p=>{const v=String(val(c.id,p.k)).trim();if(v)s+=`  ${p.q.replace("@GIRO@",g||"mi institución")} ${v}\n`});
-    const cor=val(c.id,"corregido").trim(); if(cor)s+=`  Corregido: ${cor}\n`;
-    const r=efectividad(val(c.id,"doc"),val(c.id,"imp"));
-    if(r)s+=`  Efectividad estimada: ${r.ef} — ${CLASES[r.ef]}\n`;
-    s+=`  [Punto de corte publicado] ${c.rev.corte}\n`;
-  });
-  return s;
-}
+
 
 const vistas={taller:document.getElementById("v-taller"),cat:document.getElementById("v-cat")};
 function ver(v){
@@ -639,32 +630,9 @@ document.querySelectorAll(".pes[data-v]").forEach(b=>b.addEventListener("click",
 document.getElementById("ir-cat").addEventListener("click",()=>ver("cat"));
 if(location.hash==="#catalogo")ver("cat");
 
-const suelto=(()=>{try{return window.self===window.top}catch(e){return false}})();
-const bImp=document.getElementById("imprimir"), bImp2=document.getElementById("imprimir2"),
-      bDes=document.getElementById("descargar"), aviso=document.getElementById("aviso-print");
-if(suelto){
-  bImp.hidden=false;bImp2.hidden=false;bDes.hidden=false;
-  const impr=()=>{ver("cat");setTimeout(()=>{if(!pintaCat().vacio)window.print()},250)};
-  bImp.addEventListener("click",impr); bImp2.addEventListener("click",impr);
-  bDes.addEventListener("click",()=>{
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(new Blob([texto()],{type:"text/plain;charset=utf-8"}));
-    a.download="catalogo-mitigantes.txt";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-  });
-}else{
-  aviso.textContent="Para el PDF, abre esta página en una pestaña propia: aquí dentro el navegador no deja imprimir.";
-}
-document.getElementById("copiar").addEventListener("click",async e=>{
-  const b=e.currentTarget, t=texto();
-  try{await navigator.clipboard.writeText(t);b.textContent="Copiado"}
-  catch(err){
-    const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";
-    document.body.appendChild(ta);ta.select();
-    try{document.execCommand("copy");b.textContent="Copiado"}catch(e2){b.textContent="Selecciona y copia";ta.style.opacity="1";return}
-    ta.remove();
-  }
-  setTimeout(()=>b.textContent="Copiar mi catálogo",2200);
-});
+const impr=()=>{ver("cat");setTimeout(()=>{if(!pintaCat().vacio){try{window.print()}catch(e){}}},250)};
+document.getElementById("imprimir").addEventListener("click",impr);
+document.getElementById("imprimir2").addEventListener("click",impr);
 
 CASOS.forEach(c=>{pintaPasos(c.id);pintaEf(c.id)});
 pintaEstado(); pintaCat();
