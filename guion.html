@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Guion de la sesión</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Hoja del instructor: el reloj a la izquierda, lo que se dice a la derecha. */
+:root{
+  --crema:#faf5ec; --tinta:#1b1b1e; --carbon:#393e41;
+  --verde:#64c27b; --morado:#a663cc; --turquesa:#80bcb5; --amarillo:#faa916; --coral:#ff8361;
+  --bg:var(--crema); --fg:var(--tinta); --suave:#6b6f71; --sup:#ffffff;
+  --linea:#e3dccd; --linea-fuerte:#cfc6b2; --sombra:0 1px 2px rgba(27,27,30,.06);
+  --display:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cuerpo:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --carbon:#d8d4cc;
+  --linea:#33383a; --linea-fuerte:#4a5052; --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#181a1b; --fg:#f2eee6; --suave:#a9a69f; --sup:#212426; --carbon:#d8d4cc;
+  --linea:#33383a; --linea-fuerte:#4a5052; --sombra:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--cuerpo);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
+p{margin:0}
+.env{max-width:940px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.cinta{background:var(--coral);color:#3a1004;font-size:13px;font-weight:700;text-align:center;padding:7px 16px;letter-spacing:.02em}
+.barra{background:var(--sup);border-bottom:1px solid var(--linea)}
+.barra .env{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-block:10px}
+.marca{font-family:var(--display);font-weight:800;font-size:15px;color:inherit;text-decoration:none}
+.marca span{color:var(--verde)}
+.sep{flex:1}
+.pes{border:1px solid var(--linea-fuerte);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:600;color:var(--fg);text-decoration:none}
+.hero{padding-block:28px 6px}
+.ojo{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--suave);font-weight:600}
+h1{font-size:clamp(27px,5vw,40px);line-height:1.05;font-weight:800;margin-top:10px}
+.bajada{margin-top:14px;max-width:64ch;color:var(--carbon)}
+section{padding-block:26px}
+section+section{border-top:1px solid var(--linea)}
+h2{font-size:20px;font-weight:700;margin-bottom:6px}
+.sub{color:var(--suave);font-size:14px;margin-bottom:16px;max-width:70ch}
+.reloj{display:grid;grid-template-columns:78px 1fr;gap:0 16px;font-size:15px}
+.reloj dt{font-variant-numeric:tabular-nums;font-weight:700;color:var(--verde);font-family:var(--display);padding-block:10px}
+.reloj dd{margin:0;padding-block:10px;border-bottom:1px solid var(--linea)}
+.reloj dd b{display:block;font-family:var(--display);font-size:15px;margin-bottom:2px}
+.reloj dd span{color:var(--carbon);font-size:14.5px}
+ol.preg{counter-reset:p;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:11px}
+ol.preg li{counter-increment:p;background:var(--sup);border:1px solid var(--linea);border-radius:11px;padding:14px 16px 14px 50px;position:relative;box-shadow:var(--sombra)}
+ol.preg li::before{content:counter(p);position:absolute;left:14px;top:14px;width:24px;height:24px;border-radius:50%;background:var(--verde);color:#10240f;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:12px}
+ol.preg b{font-size:15.5px}
+ol.preg p{font-size:14px;color:var(--carbon);margin-top:5px}
+ol.preg .dijo{font-size:13.5px;color:var(--suave);margin-top:6px;border-left:2px solid var(--linea-fuerte);padding-left:10px}
+.tips{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.tip{background:var(--sup);border:1px solid var(--linea);border-left:4px solid var(--morado);border-radius:11px;padding:14px 16px}
+.tip h4{font-size:14.5px;margin-bottom:5px}
+.tip p{font-size:13.5px;color:var(--carbon)}
+.tip.t2{border-left-color:var(--amarillo)}.tip.t3{border-left-color:var(--turquesa)}.tip.t4{border-left-color:var(--coral)}
+.cierre{background:var(--carbon);color:#faf5ec;border-radius:13px;padding:20px 22px}
+:root[data-theme="dark"] .cierre{background:#2b2f31}
+.cierre h3{font-size:17px;margin-bottom:8px}
+.cierre p{font-size:14.5px;opacity:.93}
+.cierre p+p{margin-top:9px}
+footer{border-top:1px solid var(--linea);padding-block:20px 36px;font-size:13px;color:var(--suave)}
+@media print{.cinta,.barra,.no-print{display:none!important}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<div class="cinta">Hoja del instructor · no se comparte con el grupo</div>
+<div class="barra"><div class="env">
+  <a class="marca" href="index.html">360<span>EDUCA</span> · Guion de la sesión</a>
+  <div class="sep"></div>
+  <a class="pes" href="taller.html">Abrir el taller</a>
+  <a class="pes" href="ruta.html">Ruta del mitigante</a>
+</div></div>
+
+<div class="env">
+<section class="hero">
+  <p class="ojo">Cierre de mitigación · 1 hora · 4 casos</p>
+  <h1>Cómo correr la sesión</h1>
+  <p class="bajada">El grupo viene de recorrer la metodología en orden: identificar, medir, valorar, mitigar. Esta sesión va al revés: empieza afuera, con una historia, y la trae a la operación. Decirlo en voz alta al principio ayuda, porque el desconcierto inicial es parte del ejercicio.</p>
+</section>
+
+<section>
+  <h2>El reloj</h2>
+  <p class="sub">Si la sesión empieza tarde, lo que se recorta es la ronda 2, nunca la revelación.</p>
+  <dl class="reloj">
+    <dt>0–5</dt><dd><b>Encuadre y las tres reglas</b><span>Designación, acusación y condena no son lo mismo; el volumen investigado no es dinero ilícito; una señal sola no prueba nada. Las tres están en el taller, se leen de ahí.</span></dd>
+    <dt>5–8</dt><dd><b>Cada quien elige su figura</b><span>Abren el taller, ponen nombre y eligen qué son. A partir de ahí las preguntas se formulan desde su giro.</span></dd>
+    <dt>8–20</dt><dd><b>Ronda 1 · el caso guiado</b><span>Las remesas. Se lee el expediente en voz alta y se recorren los diez pasos con el grupo, preguntando y dejando que contesten. Todos van escribiendo en su pantalla.</span></dd>
+    <dt>20–30</dt><dd><b>La revelación</b><span>«Ver qué pasó.» La pregunta que ordena la discusión es una sola: ¿tu mitigante lo habría interrumpido, y en qué punto?</span></dd>
+    <dt>30–40</dt><dd><b>El mitigante corregido y su calificación</b><span>Cada quien reescribe su mitigante y lo califica con los dos ejes. Aquí se conecta con la Ruta y con su propia matriz.</span></dd>
+    <dt>40–52</dt><dd><b>Ronda 2 · por su cuenta</b><span>Eligen uno de los otros tres casos y lo trabajan solos. Dos o tres comparten en voz alta.</span></dd>
+    <dt>52–60</dt><dd><b>Cierre e impresión</b><span>Todos imprimen su catálogo antes de salir. El caso 5, el del riesgo interno, se lo llevan.</span></dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Los diez pasos, y qué buscar en cada uno</h2>
+  <p class="sub">Con lo que salió en la sesión del 4 de noviembre sobre el caso de las remesas.</p>
+  <ol class="preg">
+    <li><b>¿Qué te suena raro aquí?</b>
+      <p>Dejar que digan de todo, sin corregir rápido. Lo que parece raro no siempre lo es, y ese matiz enseña más que la lista.</p>
+      <p class="dijo">Salió: los tres giros en un mostrador; los destinos en estados de alto riesgo; el volumen de transferencias; el uso de efectivo. Al primero conviene responder con la tiendita del pueblo que también es agente: raro sí, imposible no.</p></li>
+    <li><b>¿Con qué indicador de tu matriz se relaciona?</b>
+      <p>Es el eslabón que amarra la historia a la metodología. Pedirlo señal por señal.</p>
+      <p class="dijo">Salió: áreas geográficas, clientes, transacciones y canales. Recordarles que para que la señal geográfica funcione, esos estados tienen que estar marcados como de alto riesgo en su propia metodología.</p></li>
+    <li><b>¿Qué va a ver tu sistema?</b>
+      <p>La historia está platicada; el sistema ve datos duros. Es el paso que hace diseñable la alerta.</p>
+      <p class="dijo">El nombre de un estado, el número de operaciones, un domicilio que se repite.</p></li>
+    <li><b>Si tú eres esa figura, ¿cómo te afecta?</b>
+      <p>Aquí entra el riesgo a la organización. Abrir a quién le aplica: transmisor, centro cambiario, SOFOM, actividad vulnerable, prestamista, monedero. Vale decir «a mí no me aplica», con su porqué.</p>
+      <p class="dijo">Al transmisor le afecta tener agentes relacionados vinculados con operaciones de origen ilícito.</p></li>
+    <li><b>¿Qué mitigante diseñas?</b>
+      <p>Y la pregunta fina que no hay que saltarse: ¿aplica a todos o sólo a algunos?</p>
+      <p class="dijo">Salieron dos: debida diligencia reforzada a agentes relacionados, y monitoreo por agente comparado contra agentes de su misma población.</p></li>
+    <li><b>¿Preventivo o detectivo?</b>
+      <p>La diligencia reforzada en el alta previene; el monitoreo por agente detecta. Aquí cabe la advertencia sobre de-risking: cerrarle la puerta a todos los PEP no es un control, es renunciar.</p></li>
+    <li><b>¿Dónde vive el control?</b>
+      <p>Onboarding, debida diligencia, monitoreo, diseño de alertamiento. El lugar del proceso, no el área.</p></li>
+    <li><b>¿Quién lo ejecuta y cada cuándo?</b>
+      <p>El recorrido completo: el Oficial lo propone, el comité lo aprueba, se modifica el manual, se configura en el sistema y lo ejecuta el área de negocio cada vez que da de alta a un agente. El Oficial no es quien lo ejecuta.</p></li>
+    <li><b>¿Qué evidencia deja?</b>
+      <p>El expediente de cada agente relacionado, con fecha y responsable.</p></li>
+    <li><b>¿Cómo sabes si sirvió?</b>
+      <p>El paso que cuesta y el que más importa. Si no se puede medir la efectividad, no se está cumpliendo el enfoque basado en riesgo.</p>
+      <p class="dijo">Salieron: tasa de altas rechazadas por no entregar información; número de alertas por agente y su tendencia; cuántas se dictaminan y cuántas se escalan. Rematar con que alertar no basta si nadie escala: eso fue lo que costó 1,200 millones de dólares en el caso del banco.</p></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Cuatro cosas que conviene decir</h2>
+  <div class="tips">
+    <div class="tip"><h4>Saca el ritmo antes de opinar</h4><p>El taller trae la calculadora: cien mil transferencias en cuatro años son sesenta y ocho al día y ocho por hora. La pregunta se vuelve concreta: ¿cabe eso en ese local, con ese personal?</p></div>
+    <div class="tip t2"><h4>Segmentar bien antes de comparar</h4><p>Comparar un agente contra todos los demás genera ruido. Hay que agrupar por poblaciones de tamaño parecido; si no, la alerta se dispara por el motivo equivocado.</p></div>
+    <div class="tip t3"><h4>Los valores se pueden ajustar</h4><p>El 0.9, 0.7, 0.4 y 0 son la escala de la metodología y cada entidad puede moverla. Lo que no se mueve es el principio: nunca se llega a 100, porque ningún control elimina el riesgo.</p></div>
+    <div class="tip t4"><h4>No es un ejercicio de memoria</h4><p>Si alguien dice «yo no soy transmisor, esto no me toca», ahí está el punto: no se trata de aprenderse el caso, sino de entrenar el movimiento de traer lo de afuera a la operación propia.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="cierre">
+    <h3>El cierre</h3>
+    <p>La valoración de riesgos se documenta una vez al año, pero no se hace una vez al año: se hace de manera constante. Eso es lo que separa un documento aprobado de un programa que funciona.</p>
+    <p>Y el porqué de fondo: México está siendo evaluado por el GAFI, y lo que se va a exigir no es tener la metodología aprobada, sino demostrar que las medidas de mitigación son efectivas. Eso baja a todos los niveles, de la banca a las notarías.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Guion derivado de la sesión del 4 de noviembre de 2026. Las respuestas citadas son las que dio el grupo. Hoja interna de 360Educa.</p>
+</footer>
+</div>
+
+</body>
+</html>

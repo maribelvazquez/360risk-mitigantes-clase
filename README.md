@@ -9,6 +9,7 @@ Cuatro páginas, sin dependencias ni build: se abre `index.html` y listo.
 | `ruta.html` | La ruta del mitigante: los tres niveles de la metodología EBR LD/FT y la calculadora de efectividad. |
 | `taller.html` | Taller de cuatro casos reales sin desenlace, con plantilla de mitigante y catálogo imprimible. |
 | `biblioteca.html` | Índice de las 33 Crónicas de Riesgo de IMPACTO360, de la N14 a la N23. |
+| `guion.html` | **Hoja del instructor.** No se enlaza desde la portada: se entra por la URL directa. |
 
 ## Cómo se usa en clase
 
@@ -18,12 +19,8 @@ Después el taller, que es donde se gana la sesión.
 
 | Minutos | Qué pasa |
 |---|---|
-| 0–5 | Encuadre y las tres reglas de precisión. |
-| 5–17 | Ronda 1: cada mesa toma un caso y llena su plantilla. Nadie revela todavía. |
-| 17–25 | Dos minutos por mesa. |
-| 25–40 | Revelación caso por caso: ¿tu mitigante lo habría interrumpido, y en qué punto? |
-| 40–50 | Ronda 2: cada mesa corrige su mitigante. |
-| 50–60 | Cierre e impresión del catálogo. El caso 5 se lo llevan. |
+El reloj completo, los diez pasos con lo que salió en clase y lo que conviene decir
+están en `guion.html`, que es la hoja del instructor y no se comparte con el grupo.
 
 ## El catálogo en PDF
 
