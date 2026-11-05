@@ -224,25 +224,35 @@ footer p+p{margin-top:7px}
     <div class="campo">
       <label for="giro">¿Qué eres? Desde aquí respondes todo</label>
       <select id="giro">
-        <option value="">Elige tu figura…</option>
-        <optgroup label="Entidad del sector financiero">
-          <option>Banco</option><option>Casa de bolsa</option><option>SOFOM E.N.R.</option>
-          <option>Casa de cambio o centro cambiario</option><option>Transmisor de dinero</option>
-          <option>Fintech (IFPE o IFC)</option><option>SOFIPO</option><option>Unión de crédito</option>
-          <option>Seguros o fianzas</option>
+        <option value="">Elige tu giro…</option>
+        <optgroup label="Sector financiero">
+          <option>Banca</option>
+          <option>Crédito no bancario y ahorro popular</option>
+          <option>Valores e inversión</option>
+          <option>Pagos y cambios</option>
+          <option>Tecnología financiera (ITF)</option>
         </optgroup>
         <optgroup label="Actividad Vulnerable · art. 17 LFPIORPI">
-          <option>Inmobiliaria o desarrollo inmobiliario</option><option>Arrendamiento de inmuebles</option>
-          <option>Construcción</option><option>Automotriz</option><option>Fedatario público</option>
-          <option>Mutuo, préstamo o crédito</option><option>Joyería y metales preciosos</option>
-          <option>Obra de arte</option><option>Blindaje</option><option>Activos virtuales</option>
-          <option>Donativos</option><option>Juegos y sorteos</option><option>Agente aduanal</option>
-          <option>Traslado o custodia de valores</option><option>Servicios profesionales</option>
+          <option>Inmobiliario</option>
+          <option>Bienes de alto valor</option>
+          <option>Crédito, tarjetas y juegos</option>
+          <option>Fe pública y servicios profesionales</option>
+          <option>Donativos, traslado de valores y comercio exterior</option>
+          <option>Activos virtuales</option>
         </optgroup>
-        <option>Otra</option>
+        <optgroup label="No soy sujeto obligado">
+          <option>Farmacéutica y química</option>
+          <option>Bebidas, agroindustria y alimentos</option>
+          <option>Importación, comercio y distribución</option>
+          <option>Proveedores de gobierno y servicios</option>
+          <option>Turismo, entretenimiento y eventos</option>
+        </optgroup>
+        <optgroup label="Grupo mixto">
+          <option>Grupo mixto</option>
+        </optgroup>
       </select>
     </div>
-    <p class="nota">El caso no le aplica igual a todos. Al elegir tu figura, las preguntas se formulan desde ahí: si algo no te aplica, decirlo también es parte del ejercicio.</p>
+    <p class="nota" id="nota-giro">El caso no le aplica igual a todos. Al elegir tu giro, las preguntas se formulan desde ahí: si algo no te aplica, decirlo también es parte del ejercicio.</p>
   </div>
 
   <div class="reglas">
@@ -284,7 +294,7 @@ const PASOS=[
  {k:"raro",ph:"Tres o cuatro cosas, en tus palabras…",q:"¿Qué te suena raro aquí?",a:"Con el expediente en la mano, sin tecnicismos. Enumera lo que te llamaría la atención y por qué.",t:"textarea",filas:4},
  {k:"indicador",q:"¿Con qué indicador de tu matriz se relaciona?",a:"Cada señal pertenece a un elemento. Si tocan varios, anota el principal y menciona los demás.",t:"indicador"},
  {k:"dato",ph:"El campo o el valor concreto que dispararía la alerta…",q:"¿Qué va a ver tu sistema?",a:"La historia está platicada; tu sistema ve datos duros. El nombre de un estado, un número de operaciones, un domicilio repetido. Tradúcelo.",t:"textarea",filas:3},
- {k:"afecta",ph:"Qué parte de tu operación queda expuesta…",q:"Si tú eres @GIRO@, ¿cómo te afecta?",a:"Aquí el riesgo entra a tu organización. Puede ser que no te aplique: decirlo, y decir por qué, también cuenta.",t:"textarea",filas:3},
+ {k:"afecta",ph:"Qué parte de tu operación queda expuesta…",q:"Estás en @GIRO@. ¿Cómo te afecta?",a:"Aquí el riesgo entra a tu organización. Puede ser que no te aplique: decirlo, y decir por qué, también cuenta.",t:"textarea",filas:3},
  {k:"mitigante",ph:"Nombra el control y di a quiénes aplica…",q:"¿Qué mitigante diseñas?",a:"Nómbralo como lo pondrías en tu matriz. Y afina: ¿aplica a todos o sólo a algunos?",t:"textarea",filas:3},
  {k:"tipo",q:"¿Preventivo o detectivo?",a:"Preventivo evita que entre; detectivo identifica un comportamiento que ya ocurrió. Una debida diligencia reforzada en el alta es preventiva; un monitoreo por agente es detectivo.",t:"select",op:["Preventivo","Detectivo","Ambos","Correctivo"]},
  {k:"vive",q:"¿Dónde vive el control?",a:"El lugar del proceso donde opera, no el área.",t:"select",op:["Onboarding / alta","Debida diligencia","Monitoreo transaccional","Diseño de alertamiento","Expediente","Gobierno y comité","Auditoría","Sistema automatizado"]},
@@ -359,7 +369,7 @@ const guardar=()=>{try{localStorage.setItem(CLAVE,JSON.stringify(D))}catch(e){}}
 const val=(id,k)=>((D[id]||{})[k]||"");
 const set=(id,k,v)=>{(D[id]=D[id]||{})[k]=v;guardar();pintaEstado()};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const giro=()=>val("_id","giro")||"tu institución";
+const giro=()=>val("_id","giro")||"tu giro";
 
 /* Misma escala de la Ruta del Mitigante: promedio de los dos ejes → 0.9 / 0.7 / 0.4 / 0 */
 const CLASES={"0.9":"Control óptimo","0.7":"Control adecuado","0.4":"Control con áreas de mejora","0":"Sin mitigante"};
@@ -561,9 +571,24 @@ document.querySelectorAll(".revelar").forEach(b=>{
   const el=document.getElementById(k);
   el.value=val("_id",k);
   el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{
-    set("_id",k,el.value); CASOS.forEach(c=>pintaPasos(c.id));
+    set("_id",k,el.value); CASOS.forEach(c=>pintaPasos(c.id)); if(k==="giro")notaGiro();
   });
 });
+
+
+const NOTAS={
+ "No soy sujeto obligado":"No reportas a la autoridad, pero te pueden usar para lavar dinero, y eso cuesta cuentas bancarias, clientes y reputación. Aquí la pregunta cambia: si no tienes obligación de reportar, ¿qué controlas tú?",
+ "Grupo mixto":"Situaciones en las que el riesgo cruza de una empresa del grupo a otra: misma tesorería, mismos proveedores, misma gente que factura y contrata.",
+ "Sector financiero":"Sujeto obligado supervisado: el caso se traduce directo a tu matriz y a tu manual.",
+ "Actividad Vulnerable · art. 17 LFPIORPI":"Sujeto obligado ante el SAT: tus controles viven en el Manual de Políticas Internas y en tus Avisos."
+};
+function notaGiro(){
+  const el=document.getElementById("giro"), n=document.getElementById("nota-giro");
+  const grupo=el.selectedOptions[0]&&el.selectedOptions[0].parentElement.label;
+  const v=el.value;
+  n.textContent = NOTAS[v] || NOTAS[grupo] ||
+    "El caso no le aplica igual a todos. Al elegir tu giro, las preguntas se formulan desde ahí: si algo no te aplica, decirlo también es parte del ejercicio.";
+}
 
 /* ---- estado ---- */
 function llenos(){
@@ -593,7 +618,7 @@ function hojas(){
         <dl class="ficha-lin">
           ${PASOS.map(p=>{
             const v=String(val(c.id,p.k)).trim();
-            const et=p.k==="afecta"?`Si soy ${esc(g||"mi institución")}`:esc(p.q.replace("@GIRO@",g||"mi institución"));
+            const et=p.k==="afecta"?`Cómo me afecta en ${esc(g||"mi giro")}`:esc(p.q.replace("@GIRO@",g||"mi giro"));
             const extra=p.k==="indicador"&&val(c.id,"elemento")?`${esc(val(c.id,"elemento"))} — `:"";
             return `<dt>${et}</dt><dd>${v?extra+esc(v):'<span class="vacio">—</span>'}</dd>`;
           }).join("")}
@@ -635,6 +660,7 @@ document.getElementById("imprimir").addEventListener("click",impr);
 document.getElementById("imprimir2").addEventListener("click",impr);
 
 CASOS.forEach(c=>{pintaPasos(c.id);pintaEf(c.id)});
+notaGiro();
 pintaEstado(); pintaCat();
 </script>
 
