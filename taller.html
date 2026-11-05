@@ -62,7 +62,8 @@ textarea{resize:vertical;min-height:62px;line-height:1.5}
 @media(min-width:700px){.ident{grid-template-columns:1fr 1fr 1.2fr}}
 .ident .nota{grid-column:1/-1;font-size:13px;color:var(--suave);margin:0}
 
-.reglas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:22px}
+.regla-unica{margin-top:22px;border-left:3px solid var(--verde);padding:10px 0 10px 14px;font-size:15px;color:var(--carbon);max-width:72ch}
+.regla-unica b{color:var(--fg)}
 .regla{border:1px dashed var(--linea-fuerte);border-radius:10px;padding:14px 15px}
 .regla h4{font-size:13.5px;margin-bottom:5px}
 .regla p{font-size:13.5px;color:var(--carbon)}
@@ -255,11 +256,8 @@ footer p+p{margin-top:7px}
     <p class="nota" id="nota-giro">El caso no le aplica igual a todos. Al elegir tu giro, las preguntas se formulan desde ahí: si algo no te aplica, decirlo también es parte del ejercicio.</p>
   </div>
 
-  <div class="reglas">
-    <div class="regla"><span class="pill">Regla 1</span><h4>Designación, acusación y condena no son lo mismo.</h4><p>OFAC designa y FinCEN alerta: actos administrativos. En México, quien acusa es la FGR. Ninguno de los tres es una condena, y una designación allá no genera por sí sola una obligación acá.</p></div>
-    <div class="regla"><span class="pill">Regla 2</span><h4>El volumen investigado no es dinero ilícito.</h4><p>Mientras no haya prueba y condena, un monto bajo investigación describe el alcance de la revisión, no recursos de origen ilícito.</p></div>
-    <div class="regla"><span class="pill">Regla 3</span><h4>Una señal sola no prueba nada.</h4><p>Pero bien configuradas funcionan como brújula: dicen dónde se está generando el mayor riesgo. Lo que decide es la combinación.</p></div>
-  </div>
+  <p class="regla-unica">Una señal sola no prueba nada. Bien configuradas funcionan como brújula: dicen dónde se está generando el mayor riesgo. <b>Lo que decide es la combinación.</b></p>
+  
 </section>
 
 <section class="env casos" id="lista"></section>
