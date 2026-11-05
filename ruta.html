@@ -103,6 +103,31 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--morado);outline-
 .nota{background:var(--tarjeta);border:1px solid var(--linea);border-left:5px solid var(--morado);
   border-radius:12px;padding:15px 18px;font-size:.91rem}
 .pie{margin-top:40px;padding-top:16px;border-top:1px solid var(--linea);color:var(--sec);font-size:.82rem;text-align:center}
+.explica{font-size:.9rem;line-height:1.55;color:var(--texto);background:var(--crema);
+  border-left:3px solid var(--principal);border-radius:0 9px 9px 0;padding:11px 14px;margin:0 0 15px}
+.paso.p2 .explica{border-left-color:var(--amarillo)}
+.paso.p3 .explica{border-left-color:var(--morado)}
+.paso.p4 .explica{border-left-color:var(--carbon)}
+.explica b{font-weight:700}
+.comp{margin-top:12px}
+.comp .cap{display:flex;justify-content:space-between;font-size:.74rem;opacity:.8;margin-bottom:4px;font-weight:600}
+.pista{height:15px;border-radius:5px;background:rgba(255,255,255,.14);overflow:hidden;margin-bottom:7px;position:relative}
+.pista i{display:block;height:100%;border-radius:5px;transition:width .25s ease}
+.pista.inh i{background:#ff8361}
+.pista.res i{background:#80bcb5}
+.comp .leyenda{font-size:.76rem;opacity:.82;margin-top:2px}
+.pondvis{margin-top:13px}
+.pondvis .tira{display:flex;height:34px;border-radius:9px;overflow:hidden;border:1px solid var(--linea)}
+.pondvis .tira span{display:grid;place-items:center;font-family:Montserrat,sans-serif;font-weight:700;
+  font-size:.76rem;color:#1b1b1e;transition:width .25s ease;min-width:0;overflow:hidden;white-space:nowrap}
+.pondvis .tira .ent{background:var(--morado);color:#fff}
+.pondvis .tira .ele{background:var(--amarillo)}
+.pondvis .tira .ind{background:var(--principal)}
+.pondvis .pie2{display:flex;justify-content:space-between;font-size:.76rem;color:var(--sec);margin-top:6px;gap:10px;flex-wrap:wrap}
+.aporta{margin-top:11px;display:grid;gap:5px;font-size:.82rem}
+.aporta div{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px dashed var(--linea)}
+.aporta div:last-child{border-bottom:none;font-weight:700}
+.aporta b{font-family:Montserrat,sans-serif}
 
 .navbar{background:var(--tarjeta);border-bottom:1px solid var(--linea)}
 .navwrap{max-width:1080px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:9px;flex-wrap:wrap}
@@ -218,6 +243,13 @@ table{display:block;overflow-x:auto;white-space:nowrap}
         <div class="paso p1">
           <div class="enc"><span class="np">1</span>
             <div><h3>El indicador y su mitigante</h3><p class="q">Se captura</p></div></div>
+          <p class="explica">Vamos a empezar por abajo, por el indicador, que es donde ustedes van a pasar
+la mayor parte del tiempo. Escojan uno de su matriz, el que quieran, y tráiganlo aquí con el riesgo
+inherente tal como les quedó. Ahora viene la parte que cuesta: describir el mitigante. No me pongan
+«se aplica el Manual». Pongan qué hace, a quién se le aplica y en qué momento. Y califiquen los dos ejes
+por separado, porque son cosas distintas: una es si está escrito y otra es si se hace. <b>Aquí es donde
+nos caemos la mayoría</b>: el control está impecable en el Manual, pero nadie enseña la evidencia de que
+se aplicó.</p>
           <div class="campo"><label for="ind">Indicador de riesgo</label>
             <input id="ind" placeholder="Anonimato o falta de identificación del Cliente o Usuario"></div>
           <div class="dos">
@@ -249,6 +281,13 @@ table{display:block;overflow-x:auto;white-space:nowrap}
         <div class="paso p2">
           <div class="enc"><span class="np">2</span>
             <div><h3>Los demás indicadores del elemento</h3><p class="q">Se promedia · automático</p></div></div>
+          <p class="explica">Ahora fíjense bien, porque esto es lo que más confunde: <b>el elemento no se
+califica</b>. No hay dónde escribirle una nota. Su calificación sale sola, del promedio de todos los
+indicadores que lo componen. Por eso les pido que agreguen aquí los otros indicadores del mismo elemento,
+aunque sea rapidito, para que el promedio sea el de verdad y no el de uno solo. Y acuérdense de que
+<b>el promedio castiga</b>: si tienen un indicador en cero, se les va a llevar el elemento para abajo
+aunque los demás estén muy bien. Si alguien quiere subir el elemento, el único camino es mejorar los
+mitigantes de sus indicadores. No hay otro.</p>
           <p style="font-size:.87rem;color:var(--sec);margin:0 0 12px">Agrega los otros indicadores
           del mismo elemento para que el promedio sea el real. El tuyo ya cuenta.</p>
           <div id="hermanos"></div>
@@ -258,18 +297,39 @@ table{display:block;overflow-x:auto;white-space:nowrap}
         <div class="paso p3">
           <div class="enc"><span class="np">3</span>
             <div><h3>Los cinco mitigantes de entidad</h3><p class="q">Se capturan</p></div></div>
+          <p class="explica">Estos cinco no dependen de ningún indicador: son los controles de la casa.
+Gobierno corporativo, auditoría, estructuras internas, capacitación y el sistema automatizado. Se califican
+igual, con los mismos dos ejes, pero piénsenlo distinto: aquí no estamos viendo un riesgo en particular,
+estamos viendo si la casa está parada. Y les voy a pedir que sean honestos sobre todo con capacitación y
+con auditoría, porque son las dos donde más fácil nos ponemos un cinco y luego <b>la evidencia no aparece
+cuando llega quien nos revisa</b>.</p>
           <div id="entidad"></div>
         </div>
 
         <div class="paso p4">
           <div class="enc"><span class="np">4</span>
             <div><h3>La ponderación de los tres niveles</h3><p class="q">La define la entidad</p></div></div>
+          <p class="explica">Y aquí viene una decisión que es de ustedes, no de la metodología: cuánto pesa
+cada nivel. La guía no les da un número. El libro trae un ejemplo de 20, 20 y 60, cargado al indicador,
+porque es donde está el trabajo fino. Si ustedes deciden otra cosa está bien, <b>siempre y cuando lo
+justifiquen por escrito</b>. Lo que no se vale es dejarlo vacío, ni irle moviendo hasta que salga el número
+que nos gusta. Acuérdense de que esto se lo van a presentar a su comité, y ahí alguien les va a preguntar
+por qué 60 y no 40.</p>
           <div class="dos">
             <div class="campo"><label for="pEnt">Entidad (%)</label><input id="pEnt" type="number" min="0" max="100" value="30"></div>
             <div class="campo"><label for="pEle">Elemento (%)</label><input id="pEle" type="number" min="0" max="100" value="30"></div>
           </div>
           <div class="campo"><label for="pInd">Indicador (%)</label><input id="pInd" type="number" min="0" max="100" value="40"></div>
           <p id="sumaAviso" style="font-size:.84rem;margin:0;color:var(--sec)"></p>
+          <div class="pondvis">
+            <div class="tira" id="tiraPond">
+              <span class="ent" style="width:30%">Entidad</span>
+              <span class="ele" style="width:30%">Elemento</span>
+              <span class="ind" style="width:40%">Indicador</span>
+            </div>
+            <div class="pie2"><span>Así se reparte el peso</span><span id="pondPie"></span></div>
+            <div class="aporta" id="aportaPond"></div>
+          </div>
         </div>
 
         <button class="btn full" id="ejemplo" type="button">Cargar ejemplo completo</button>
@@ -283,6 +343,13 @@ table{display:block;overflow-x:auto;white-space:nowrap}
           <div class="fila"><span>Documentación + implementación</span><b id="rPromInd">—</b></div>
           <div class="fila"><span>Riesgo inherente</span><b id="rInh">—</b></div>
           <div class="fila"><span>Riesgo residual del indicador</span><b id="rResInd">—</b></div>
+          <div class="comp">
+            <div class="cap"><span>Inherente</span><b id="capInh">—</b></div>
+            <div class="pista inh"><i id="barInh" style="width:100%"></i></div>
+            <div class="cap"><span>Residual</span><b id="capRes">—</b></div>
+            <div class="pista res"><i id="barRes" style="width:0%"></i></div>
+            <p class="leyenda" id="legComp">El tramo que falta es lo que se llevó el mitigante.</p>
+          </div>
         </div>
         <div class="bloque">
           <h3>Nivel 2 · Elemento</h3>
@@ -302,6 +369,10 @@ table{display:block;overflow-x:auto;white-space:nowrap}
           <p class="big" id="rEfTot">—</p>
           <p class="cl" id="rClTot">—</p>
           <div class="fila"><span>Suma ponderada</span><b id="rSuma">—</b></div>
+          <div class="comp">
+            <div class="pista res"><i id="barTot" style="width:0%"></i></div>
+            <p class="leyenda">Tope de la escala: 0.9. El resto del riesgo se queda contigo.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -562,6 +633,34 @@ table{display:block;overflow-x:auto;white-space:nowrap}
     $("rSuma").textContent=tot.toFixed(4);
     $("rEfTot").textContent=efTot.toFixed(1);
     $("rClTot").textContent=CLASES[efTot];
+
+    // barras: inherente contra residual del indicador
+    if(!isNaN(inh) && inh>0){
+      var resid=inh*(1-r.ef);
+      $("capInh").textContent=inh.toFixed(2);
+      $("capRes").textContent=resid.toFixed(2);
+      $("barInh").style.width="100%";
+      $("barRes").style.width=(100*resid/inh).toFixed(1)+"%";
+      $("legComp").textContent="El mitigante se lleva "+Math.round(r.ef*100)+"% del riesgo. Lo que queda, "+
+        resid.toFixed(2)+", es con lo que te quedas.";
+    } else {
+      $("capInh").textContent="—"; $("capRes").textContent="—";
+      $("barInh").style.width="100%"; $("barRes").style.width="0%";
+      $("legComp").textContent="Captura el riesgo inherente para ver cuánto se encoge.";
+    }
+    $("barTot").style.width=(100*Math.min(tot,0.9)/0.9).toFixed(1)+"%";
+
+    // barra de ponderación
+    var tot3=(pE+pL+pI)||1;
+    $("tiraPond").children[0].style.width=(100*pE/tot3).toFixed(1)+"%";
+    $("tiraPond").children[1].style.width=(100*pL/tot3).toFixed(1)+"%";
+    $("tiraPond").children[2].style.width=(100*pI/tot3).toFixed(1)+"%";
+    $("pondPie").textContent=Math.round(pE*100)+" · "+Math.round(pL*100)+" · "+Math.round(pI*100);
+    $("aportaPond").innerHTML=
+      '<div><span>Entidad '+Math.round(pE*100)+'%</span><b>'+(efEnt*pE).toFixed(3)+'</b></div>'+
+      '<div><span>Elemento '+Math.round(pL*100)+'%</span><b>'+(efEle*pL).toFixed(3)+'</b></div>'+
+      '<div><span>Indicador '+Math.round(pI*100)+'%</span><b>'+(r.ef*pI).toFixed(3)+'</b></div>'+
+      '<div><span>Suma</span><b>'+tot.toFixed(3)+' → '+efTot.toFixed(1)+'</b></div>';
   }
 
   $("addHermano").addEventListener("click",function(){addHermano("",3,3);calcular();});
