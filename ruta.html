@@ -308,6 +308,164 @@ table{display:block;overflow-x:auto;white-space:nowrap}
   </section>
 
   <section>
+    <h2>Cómo suben los cálculos por la pirámide</h2>
+    <p class="sub">La base se captura indicador por indicador. El piso de en medio no se escribe: se promedia.
+    La cima se captura aparte. Y los tres se ponderan para obtener una sola efectividad.</p>
+    <div class="card" style="padding:14px">
+      <svg viewBox="0 0 880 336" width="100%" style="max-width:860px;display:block;margin:0 auto" role="img"
+           aria-label="Pirámide de tres niveles: indicador en la base, elemento en medio, entidad en la cima.">
+        <defs>
+          <marker id="fl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g font-family="Montserrat,sans-serif">
+          <polygon points="270,18 410,18 440,96 240,96" fill="#a663cc"/>
+          <text x="340" y="52" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">ENTIDAD</text>
+          <text x="340" y="74" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="600" opacity=".92">5 controles de la casa</text>
+
+          <polygon points="236,104 444,104 474,182 206,182" fill="#faa916"/>
+          <text x="340" y="138" text-anchor="middle" fill="#1b1b1e" font-size="15" font-weight="800">ELEMENTO</text>
+          <text x="340" y="160" text-anchor="middle" fill="#1b1b1e" font-size="11.5" font-weight="600" opacity=".8">promedio de sus indicadores</text>
+
+          <polygon points="202,190 478,190 508,268 172,268" fill="#80bcb5"/>
+          <text x="340" y="224" text-anchor="middle" fill="#1b1b1e" font-size="15" font-weight="800">INDICADOR</text>
+          <text x="340" y="246" text-anchor="middle" fill="#1b1b1e" font-size="11.5" font-weight="600" opacity=".8">un mitigante por cada riesgo</text>
+
+          <g color="#393e41" stroke="#393e41" stroke-width="2" fill="none">
+            <path d="M150 250 L150 140" marker-end="url(#fl)"/>
+          </g>
+          <text x="142" y="268" text-anchor="end" fill="#393e41" font-size="11" font-weight="700" font-family="Inter,sans-serif">se captura</text>
+          <text x="142" y="146" text-anchor="end" fill="#393e41" font-size="11" font-weight="700" font-family="Inter,sans-serif">sale solo</text>
+          <text x="142" y="56" text-anchor="end" fill="#393e41" font-size="11" font-weight="700" font-family="Inter,sans-serif">se captura</text>
+
+          <g font-family="Inter,sans-serif" font-size="11.5" fill="#393e41">
+            <text x="530" y="56">Gobierno, auditoría, estructuras,</text>
+            <text x="530" y="72">capacitación y sistema</text>
+            <text x="530" y="142">No hay dónde escribirle una nota:</text>
+            <text x="530" y="158">sube sólo si suben sus indicadores</text>
+            <text x="530" y="228">Documentación × implementación,</text>
+            <text x="530" y="244">uno por uno</text>
+          </g>
+
+          <rect x="122" y="286" width="436" height="34" rx="9" fill="#393e41"/>
+          <text x="340" y="308" text-anchor="middle" fill="#faf5ec" font-size="12.5" font-weight="700">Los tres se ponderan · la suma da la efectividad de la entidad</text>
+        </g>
+      </svg>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="nota"><b>El libro pondera 20 % entidad, 20 % elemento y 60 % indicador</b> en su ejemplo
+      (Tabla 35). Es un ejemplo, no una regla: la ponderación la define cada entidad y conviene justificarla por escrito.</div>
+      <div class="nota"><b>La 2.ª edición del libro añade un tercer eje:</b> documentado, implementado y <b>resultados efectivos</b>, cada uno de 0 % a 100 % (p. 129). Esta calculadora usa los dos ejes con los que se trabajó en clase; el tercero es el que mide si el control sirvió, y es hacia donde va 2027.</div>
+      <div class="nota"><b>Nunca se llega a 100 %.</b> El tope es 0.9 porque ningún control elimina el riesgo.
+      Esa es, además, una de las observaciones que la autoridad ha hecho: riesgos inherentes medios que terminan
+      con residuales casi en cero.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Inherente contra residual, elemento por elemento</h2>
+    <p class="sub">El mismo comparativo de la Figura 4 del libro, pero con tus números. Cambia el riesgo inherente
+    y la efectividad de cada elemento y mira cuánto se encoge la figura.</p>
+    <div class="calc">
+      <div>
+        <div class="paso p1" style="margin-bottom:0">
+          <div class="enc"><span class="np">◱</span>
+            <div><h3>Los cinco elementos</h3><p class="q">Valores de ejemplo: cámbialos por los tuyos</p></div></div>
+          <div id="elems"></div>
+          <p style="font-size:.82rem;color:var(--sec);margin:10px 0 0">La escala del ejemplo llega a 25, que es el
+          máximo cuando probabilidad e impacto se miden de 1 a 5 y se multiplican. Si tu metodología usa otra escala,
+          ajusta el tope.</p>
+          <div class="campo" style="margin-top:11px"><label for="tope">Tope de la escala</label>
+            <input id="tope" type="number" min="1" value="25"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="padding:16px">
+          <svg id="radar" viewBox="-34 0 490 382" width="100%" role="img"
+               aria-label="Comparativo de riesgo inherente y residual por elemento."></svg>
+          <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:6px;font-size:.84rem">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:13px;height:13px;border-radius:3px;background:#ff8361;display:inline-block"></span> Inherente</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:13px;height:13px;border-radius:3px;background:#80bcb5;display:inline-block"></span> Residual</span>
+          </div>
+          <div class="nota" style="margin-top:14px;font-size:.88rem" id="resumen-radar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function(){
+    var EL=[
+      {n:"1. Productos o Servicios",corto:"Productos",inh:12,ef:"0.7"},
+      {n:"2. Clientes y/o Usuarios",corto:"Clientes",inh:18,ef:"0.4"},
+      {n:"3. Zonas y áreas geográficas",corto:"Geografía",inh:15,ef:"0.7"},
+      {n:"4. Transacciones y/o canales",corto:"Transacciones",inh:20,ef:"0.4"},
+      {n:"5. Infraestructura tecnológica",corto:"Tecnología",inh:9,ef:"0.9"}
+    ];
+    var EFS=[["0.9","Óptimo · 0.9"],["0.7","Adecuado · 0.7"],["0.4","Áreas de mejora · 0.4"],["0","Sin mitigante · 0"]];
+    var cont=document.getElementById("elems");
+    cont.innerHTML=EL.map(function(e,i){
+      return '<div class="fila-h" style="grid-template-columns:1.5fr .7fr 1.1fr">'+
+        '<div><label>Elemento</label><input value="'+e.n+'" readonly></div>'+
+        '<div><label>Inherente</label><input class="r-inh" data-i="'+i+'" type="number" step="0.01" min="0" value="'+e.inh+'"></div>'+
+        '<div><label>Efectividad</label><select class="r-ef" data-i="'+i+'">'+
+          EFS.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===e.ef?' selected':'')+'>'+o[1]+'</option>'}).join("")+
+        '</select></div></div>';
+    }).join("");
+
+    var cx=210, cy=180, R=128;
+    function punto(i,n,v,tope){
+      var a=-Math.PI/2+i*2*Math.PI/n, r=R*Math.max(0,Math.min(1,v/tope));
+      return [cx+r*Math.cos(a), cy+r*Math.sin(a)];
+    }
+    function dibuja(){
+      var tope=parseFloat(document.getElementById("tope").value)||25, n=EL.length, s=[];
+      document.querySelectorAll(".r-inh").forEach(function(el){EL[el.dataset.i].inh=parseFloat(el.value)||0});
+      document.querySelectorAll(".r-ef").forEach(function(el){EL[el.dataset.i].ef=el.value});
+      // telaraña
+      [0.25,0.5,0.75,1].forEach(function(f){
+        var pts=EL.map(function(_,i){var p=punto(i,n,tope*f,tope);return p[0].toFixed(1)+","+p[1].toFixed(1)}).join(" ");
+        s.push('<polygon points="'+pts+'" fill="none" stroke="#cfc6b2" stroke-width="1" stroke-dasharray="'+(f===1?"0":"3 3")+'"/>');
+      });
+      EL.forEach(function(_,i){
+        var p=punto(i,n,tope,tope);
+        s.push('<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#cfc6b2" stroke-width="1"/>');
+      });
+      // series
+      function poly(valor,color,op){
+        var pts=EL.map(function(e,i){var p=punto(i,n,valor(e),tope);return p[0].toFixed(1)+","+p[1].toFixed(1)}).join(" ");
+        return '<polygon points="'+pts+'" fill="'+color+'" fill-opacity="'+op+'" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round"/>';
+      }
+      s.push(poly(function(e){return e.inh},"#ff8361",.28));
+      s.push(poly(function(e){return e.inh*(1-parseFloat(e.ef))},"#80bcb5",.45));
+      EL.forEach(function(e,i){
+        var p=punto(i,n,e.inh*(1-parseFloat(e.ef)),tope);
+        s.push('<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.5" fill="#80bcb5"/>');
+      });
+      // etiquetas
+      EL.forEach(function(e,i){
+        var a=-Math.PI/2+i*2*Math.PI/n, lx=cx+(R+30)*Math.cos(a), ly=cy+(R+30)*Math.sin(a);
+        var anc=Math.abs(Math.cos(a))<0.25?"middle":(Math.cos(a)>0?"start":"end");
+        var res=(e.inh*(1-parseFloat(e.ef)));
+        s.push('<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="'+anc+'" font-family="Montserrat,sans-serif" font-size="11.5" font-weight="700" fill="#393e41">'+e.corto+'</text>');
+        s.push('<text x="'+lx.toFixed(1)+'" y="'+(ly+14).toFixed(1)+'" text-anchor="'+anc+'" font-family="Inter,sans-serif" font-size="10.5" fill="#393e41" opacity=".75">'+e.inh.toFixed(1)+' → '+res.toFixed(1)+'</text>');
+      });
+      document.getElementById("radar").innerHTML=s.join("");
+      var ti=EL.reduce(function(a,e){return a+e.inh},0)/n;
+      var tr=EL.reduce(function(a,e){return a+e.inh*(1-parseFloat(e.ef))},0)/n;
+      var baja=ti>0?(100*(1-tr/ti)).toFixed(0):0;
+      document.getElementById("resumen-radar").innerHTML="Promedio inherente <b>"+ti.toFixed(2)+
+        "</b>, residual <b>"+tr.toFixed(2)+"</b>. Los mitigantes recortan un <b>"+baja+
+        "%</b>. El área que queda es el riesgo con el que la entidad decide vivir: eso es lo que se compara contra la tolerancia.";
+    }
+    cont.addEventListener("input",dibuja); cont.addEventListener("change",dibuja);
+    document.getElementById("tope").addEventListener("input",dibuja);
+    dibuja();
+  })();
+  </script>
+
+  <section>
     <h2>Lo que hay que decir en voz alta</h2>
     <div class="grid3">
       <div class="aviso"><b>El elemento no se califica.</b> Si alguien quiere subirlo, el único
@@ -319,7 +477,7 @@ table{display:block;overflow-x:auto;white-space:nowrap}
     </div>
   </section>
 
-  <p class="pie">Metodología EBR LD/FT · escalas, rangos y niveles tomados del libro de implementación</p>
+  <p class="pie">Metodología 360RISK · escalas, rangos y niveles del libro de implementación, 2.ª edición · la pirámide y el comparativo siguen las Tablas 35 y 36 y la Figura 4</p>
 </div>
 
 <script>
