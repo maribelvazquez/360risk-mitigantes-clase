@@ -93,11 +93,12 @@ footer p+p{margin-top:7px}
 <section class="env eds" id="eds"></section>
 
 <footer class="env">
-  <p>Los enlaces abren el PDF de cada edición en el Drive de GMC360. Quien no tenga acceso a esa carpeta verá una pantalla de permiso: comparte la carpeta antes de la sesión.</p>
+  <p>Los PDF de la N14, N16, N17, N18, N19, N20, N21 y N22 se abren desde este mismo sitio, sin pedir permisos. La N15 y la N23 todavía apuntan al Drive de GMC360: quien no tenga acceso a esa carpeta verá una pantalla de permiso.</p>
   <p>Hechos, cifras y atribuciones tal como los reporta cada edición. Designación no es sentencia; acusación no es condena; volumen investigado no es dinero ilícito.</p>
 </footer>
 
 <script>
+const LOCAL=["N14","N16","N17","N18","N19","N20","N21","N22"];
 const EDS=[
 {n:"N14",mes:"Febrero 2026",c:"verde",id:"1s4c-aa2iwWKOBNtbE-KZa1R5EDge7A9g",cr:[
  ["CV en revisión","Falsas ofertas de empleo que piden INE, CURP y RFC por WhatsApp antes de entrevistar.","Fraude laboral · ingeniería social · alerta SSC"],
@@ -151,7 +152,7 @@ cont.innerHTML=EDS.map(e=>`
   <header>
     <span class="nn">${e.n}</span>
     <div style="min-width:0"><h2>${esc(e.mes)}</h2><p class="mes">${e.cr.length} ${e.cr.length===1?"crónica":"crónicas"}</p></div>
-    <a class="abrir" href="https://drive.google.com/file/d/${e.id}/view" target="_blank" rel="noopener">Abrir el PDF →</a>
+    <a class="abrir" href="${LOCAL.includes(e.n)?`pdf/IMPACTO360-${e.n}.pdf`:`https://drive.google.com/file/d/${e.id}/view`}" target="_blank" rel="noopener">Abrir el PDF →</a>
   </header>
   <ul class="cr">
     ${e.cr.map(c=>`<li data-t="${esc((c[0]+" "+c[1]+" "+c[2]+" "+e.n+" "+e.mes).toLowerCase())}">
